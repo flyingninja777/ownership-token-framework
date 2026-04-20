@@ -20,9 +20,9 @@ HYPE is the native token of Hyperliquid, an L1 blockchain running HyperBFT conse
 
 ---
 
-## 1. Contract Architecture
+## Contract Architecture
 
-### 1.1 Core Contracts
+### Core Contracts
 
 | Contract | Address | Network | Purpose | Upgradeable |
 |----------|---------|---------|---------|-------------|
@@ -30,7 +30,7 @@ HYPE is the native token of Hyperliquid, an L1 blockchain running HyperBFT conse
 | WHYPE | `0x5555555555555555555555555555555555555555` | HyperEVM | Wrapped HYPE (ERC-20) | No (immutable) |
 | Bridge2 | `0x2Df1c51E09aECF9cacB7bc98cB1742757f163dF7` | Arbitrum | USDC bridge to L1 | No (non-proxy) |
 
-### 1.2 Bridge2 Contract Analysis
+### Bridge2 Contract Analysis
 
 **Source:** https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol
 
@@ -49,15 +49,9 @@ paused: false
 Contract bytecode length: 38790 chars
 ```
 
-**Bridge2 Security Model:**
-1. Withdrawals require 2/3 validator stake-weighted signatures
-2. Dispute period allows lockers to pause suspicious withdrawals
-3. Cold wallet signatures required to unlock bridge after lock
-4. Finalizers (approved addresses) must finalize withdrawals
-
 **Source:** Bridge2.sol lines 126-842 (full contract analysis)
 
-### 1.3 WHYPE Contract
+### WHYPE Contract
 
 **Address:** `0x5555555555555555555555555555555555555555` (HyperEVM)
 
@@ -72,9 +66,54 @@ Per documentation, WHYPE is:
 
 ---
 
-## 2. Governance and Ownership Model
+## Governance Flow Diagram
 
-### 2.1 Governance Mechanism
+```mermaid
+graph TD
+    subgraph "HYPE Tokenholders"
+        TH[Token Holders]
+    end
+
+    subgraph "Delegation Layer"
+        TH -->|Delegate| V[Validators]
+        TH -->|Stake| V
+    end
+
+    subgraph "Validator Set (24 Active)"
+        V --> FV[Foundation Validators<br/>53.74% stake]
+        V --> IV[Independent Validators<br/>46.26% stake]
+    end
+
+    subgraph "Consensus Control"
+        FV -->|Controls| CON[HyperBFT Consensus<br/>2/3 quorum = 67%]
+        IV -->|Participates| CON
+    end
+
+    subgraph "Protocol Control"
+        CON -->|Governs| L1[HyperCore L1]
+        CON -->|Governs| BR[Bridge2 Arbitrum]
+        CON -->|Governs| EVM[HyperEVM]
+    end
+
+    subgraph "Hyper Foundation"
+        HF[Foundation] -->|Discretionary Delegation| FV
+        HF -->|Owns| TM[Trademark]
+    end
+
+    style FV fill:#ff9999
+    style HF fill:#ff9999
+    style TM fill:#ffcc99
+```
+
+**Critical Finding:** The chain of control terminates at the Hyper Foundation, not tokenholders. While delegators choose validators, the Foundation's 53.74% stake means Foundation-aligned validators control consensus.
+
+---
+
+## Metric 1: Onchain Control
+
+### 1.1 Governance Workflow
+
+**Status: WARNING**
 
 Hyperliquid uses **validator stake-weighted consensus** for governance, not smart contract-based voting:
 
@@ -84,7 +123,7 @@ Hyperliquid uses **validator stake-weighted consensus** for governance, not smar
 
 **Key Difference from EVM Protocols:** Unlike AAVE/UNI where tokenholders vote directly via Governor contracts, HYPE holders can only influence governance indirectly through delegation.
 
-### 2.2 Validator Analysis (Live Data: 2026-04-20)
+**Validator Analysis (Live Data: 2026-04-20):**
 
 ```
 Total validators: 30
@@ -110,58 +149,15 @@ Total staked: 434,566,219.98 HYPE
 - No single validator >33% (threshold for blocking finality): **PASS**
 - Foundation >50%: **CONCERN** (53.74%)
 - Foundation >67% (supermajority control): **NO** (53.74%)
-- Top 5 validators (all Foundation): 58.26% of stake
+- Top 5 validators (4 Foundation + 1 independent): 58.26% of stake
 
-### 2.3 Delegation Program
+**Finding:** Validator voting exists, but Foundation controls majority stake. Tokenholders delegate but cannot override Foundation-controlled validators.
 
-The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliquid-docs/validators/delegation-program) explicitly states:
+### 1.2 Role Accountability
 
-> "Delegations will be monitored on an ongoing basis. **The Foundation reserves the right to cease delegation at any time.**"
+**Status: WARNING**
 
-This means the Foundation maintains discretionary control over which validators receive Foundation stake, independent of tokenholder preferences.
-
-### 2.4 Ownership Topology
-
-```
-                    ┌──────────────────────────────────┐
-                    │         HYPE Tokenholders        │
-                    │      (Hold/Stake/Delegate)       │
-                    └──────────────────┬───────────────┘
-                                       │
-                                       │ Delegate
-                                       ▼
-                    ┌──────────────────────────────────┐
-                    │           Validators             │
-                    │  (24 active, 2/3 quorum = 67%)   │
-                    └──────────────────┬───────────────┘
-                                       │
-              ┌────────────────────────┼────────────────────────┐
-              │                        │                        │
-              ▼                        ▼                        ▼
-   ┌─────────────────┐    ┌─────────────────────┐    ┌─────────────────┐
-   │ Foundation      │    │  Independent        │    │  Bridge2        │
-   │ Validators      │    │  Validators         │    │  (Arbitrum)     │
-   │ 53.74% stake    │    │  46.26% stake       │    │  Same validator │
-   └─────────────────┘    └─────────────────────┘    │  set controls   │
-                                                      └─────────────────┘
-              │
-              │ Controlled by
-              ▼
-   ┌─────────────────────────────────────────────────────────────┐
-   │                     HYPER FOUNDATION                         │
-   │  - Discretionary delegation                                  │
-   │  - No tokenholder governance documented                      │
-   │  - Controls trademark (HYPERLIQUID - USPTO 99599981)         │
-   └─────────────────────────────────────────────────────────────┘
-```
-
-**Critical Finding:** The chain of control terminates at the Hyper Foundation, not tokenholders. While delegators choose validators, the Foundation's 53.74% stake means Foundation-aligned validators control consensus.
-
----
-
-## 3. Role Matrix
-
-### 3.1 Bridge2 Roles (Arbitrum)
+**Bridge2 Roles (Arbitrum):**
 
 | Role | Function | Current Holder | Control Mechanism | Verified |
 |------|----------|----------------|-------------------|----------|
@@ -172,7 +168,7 @@ This means the Foundation maintains discretionary control over which validators 
 
 **Source:** Bridge2.sol analysis - https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol
 
-### 3.2 L1 Roles (Closed Source - Documentation Only)
+**L1 Roles (Closed Source - Documentation Only):**
 
 | Role | Function | Holder | Verification |
 |------|----------|--------|--------------|
@@ -181,38 +177,61 @@ This means the Foundation maintains discretionary control over which validators 
 | Fee Parameter Control | Set trading fees | [UNVERIFIED] | L1 closed source |
 | Assistance Fund Controller | Automated buyback/burn | System contract | Documentation only |
 
-### 3.3 HyperEVM Roles
+**Delegation Program:**
 
-| Contract | Role | Holder | Verified |
-|----------|------|--------|----------|
-| WHYPE | Admin | None (immutable) | Documentation |
-| HyperEVM | Consensus | Same validator set as HyperCore | Documentation |
+The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliquid-docs/validators/delegation-program) explicitly states:
 
----
+> "Delegations will be monitored on an ongoing basis. **The Foundation reserves the right to cease delegation at any time.**"
 
-## 4. Value Accrual Mechanism
+**Finding:** Foundation maintains discretionary delegation control; validators can jail peers. Roles exist but are not governed by tokenholders.
 
-### 4.1 Fee Structure
+### 1.3 Protocol Upgrade Authority
 
-**Source:** https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees
+**Status: NEUTRAL**
 
-| Fee Type | Base Rate | Tiers |
-|----------|-----------|-------|
-| Perps Taker | 0.045% | Down to 0.024% |
-| Perps Maker | 0.015% | Down to 0% |
-| Spot Taker | 0.070% | Down to 0.025% |
-| Spot Maker | 0.040% | Down to 0% |
+**Bridge2 (Arbitrum):**
+- Non-upgradeable (no proxy pattern)
+- Validator set updates require 2/3 stake-weighted signatures
+- No admin can unilaterally upgrade
 
-**Fee Distribution:**
-- [UNVERIFIED] Majority of fees → Assistance Fund → HYPE buyback → **Accumulated (burn status unverified)**
-- Remainder → HLP Vault and deployers
-- Up to 50% → Spot/HIP-3 deployers (of their asset's fees)
+**HyperCore L1:**
+- Upgrades via validator consensus
+- Code is closed source - upgrade mechanism unverifiable
+- [UNVERIFIED] Whether tokenholders can influence upgrade decisions
 
-**Note:** The exact percentage split between Assistance Fund and HLP is not specified in official documentation. The "97%" figure cited in secondary sources could not be verified against primary documentation.
+**HyperEVM:**
+- Shares consensus with HyperCore
+- Same validator set controls both components
 
-### 4.2 Assistance Fund
+**Finding:** Bridge2 is non-upgradeable. L1 upgrades are via validator consensus but the mechanism is closed source.
 
-**Address:** `0xfefefefefefefefefefefefefefefefefefefefe` (System address)
+### 1.4 Token Upgrade Authority
+
+**Status: NEUTRAL**
+
+**Native HYPE:**
+- L1 native token embedded in consensus layer
+- No proxy pattern (inherent to L1)
+- Upgrade would require L1 hard fork with 2/3 validator consensus
+
+**WHYPE (HyperEVM):**
+- Documented as immutable (WETH clone)
+- No upgrade mechanism per documentation
+- [UNVERIFIED] HyperScan verification status not confirmed via API
+
+**Finding:** HYPE is a native L1 token; WHYPE documented as immutable. No admin can unilaterally change token logic.
+
+### 1.5 Supply Control
+
+**Status: NEUTRAL**
+
+**Total Supply:** 1,000,000,000 HYPE (fixed)
+
+**Burn Mechanism (per documentation):**
+- Fees → Assistance Fund → HYPE buyback → Burn
+- Documentation claims permanent removal from supply
+
+**CRITICAL FINDING:** The Assistance Fund currently holds **43,459,601.14 HYPE** (~$1.07B at entry value).
 
 **Verified State (2026-04-20):**
 ```json
@@ -225,36 +244,69 @@ This means the Foundation maintains discretionary control over which validators 
 
 **Source:** API query `{"type": "spotClearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}`
 
-**Mechanism (per documentation):**
-1. Fees collected flow to Assistance Fund
-2. L1 execution automatically converts fees to HYPE
-3. Documentation claims HYPE is burned
+**Burn Status:** [UNVERIFIED] - Total supply remains 1B HYPE. No reduction in total supply has been observed. HYPE is being accumulated, not burned.
 
-**Documentation Quote:**
-> "HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply."
+**Finding:** Fixed 1B supply with no mint function. Burns documented but 43.46M HYPE accumulated (not yet burned).
 
-**CRITICAL FINDING:** Despite documentation claiming burns, the Assistance Fund currently holds **43.46M HYPE** (~$1B at entry value). This indicates:
-- Burns may occur periodically (batch burns)
-- Burns may not have been executed yet
-- Or the claimed mechanism is not functioning as documented
+### 1.6 Privileged Access Gating
 
-**Burn Status:** [UNVERIFIED] - Total supply remains 1B HYPE. No reduction in total supply has been observed that would indicate burns have occurred. The accumulated balance suggests HYPE is being converted but not yet burned.
+**Status: WARNING**
 
-### 4.3 Staking Rewards
+**Bridge Locking:**
+- Lockers can pause bridge via `voteEmergencyLock()`
+- Requires lockerThreshold votes from validators
+- Cold wallet signatures required to unlock
 
-**Source:** https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/staking
+**Unstaking Queue:**
+- 7-day unstaking period for validators
+- 1-day delegation lockup
+- Cannot immediately exit staked position
 
-| Parameter | Value |
-|-----------|-------|
-| Current APY | ~2.37% (at 400M staked) |
-| Reward Source | Future emissions reserves |
-| Distribution | Daily, auto-recompounded |
-| Unstaking Period | 7 days |
-| Delegation Lockup | 1 day |
+**Validator Jailing:**
+- 2/3 validator quorum can jail underperforming validators
+- Jailed validators lose block production rights
+- [UNVERIFIED] Jailing mechanism code (closed source)
 
-**Formula:** Reward rate inversely proportional to √(total HYPE staked)
+**Finding:** Bridge lockers, 7-day unstaking queue, and validator jailing create access restrictions. These affect user exit paths.
 
-### 4.4 Staking Fee Discounts
+### 1.7 Token Censorship
+
+**Status: NEUTRAL**
+
+**Bridge2 Contract:**
+- No blacklist function in contract
+- No freeze mechanism
+- No admin-controlled transfer restrictions
+
+**Native HYPE (L1):**
+- L1 capabilities unverifiable (closed source)
+- [UNVERIFIED] Whether censorship functions exist
+
+**WHYPE (HyperEVM):**
+- Documented as WETH clone (no blacklist)
+- Standard ERC-20 transfer logic per documentation
+
+**Finding:** No blacklist in Bridge2. L1 censorship capabilities cannot be verified due to closed source.
+
+---
+
+## Metric 2: Value Accrual
+
+### 2.1 Accrual Active
+
+**Status: NEUTRAL**
+
+**Active Mechanisms:**
+
+1. **Fee Buyback:** Trading fees → Assistance Fund → HYPE accumulation
+   - Currently accumulated: 43.46M HYPE (~$1.07B)
+   - Burns documented but not observed
+
+2. **Staking Rewards:** ~2.37% APY from future emissions reserves
+   - Daily distribution, auto-recompounded
+   - Source: Future emissions allocation (38.89%)
+
+3. **Fee Discounts:** Stakers receive trading fee reductions
 
 | Tier | HYPE Staked | Discount |
 |------|-------------|----------|
@@ -264,34 +316,107 @@ This means the Foundation maintains discretionary control over which validators 
 | Gold | 1,000,000 | 30% |
 | Diamond | 10,000,000 | 40% |
 
-### 4.5 Value Accrual Control
+**Fee Structure:**
+**Source:** https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees
 
-**Critical Question:** Who controls the fee parameters and Assistance Fund mechanism?
+| Fee Type | Base Rate | Tiers |
+|----------|-----------|-------|
+| Perps Taker | 0.045% | Down to 0.024% |
+| Perps Maker | 0.015% | Down to 0% |
+| Spot Taker | 0.070% | Down to 0.025% |
+| Spot Maker | 0.040% | Down to 0% |
+
+**Finding:** Buyback active (43.46M HYPE accumulated); burn status unverified; staking rewards active.
+
+### 2.2 Treasury Ownership
+
+**Status: NEUTRAL**
+
+**Assistance Fund:**
+- **Address:** `0xfefefefefefefefefefefefefefefefefefefefe` (System address)
+- Automated fee collection and HYPE conversion
+- No tokenholder governance over fund usage
+- Documentation claims automated burns
+
+**Foundation Budget:**
+- 6% of total supply (60M HYPE)
+- Discretionary control by Foundation
+- No transparency reports or tokenholder oversight
+
+**Documentation Quote:**
+> "HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply."
+
+**Evidence Discrepancy:** The Assistance Fund holds 43.46M HYPE (~$1B), suggesting either: (a) burns are batched and pending, (b) burn execution requires a separate governance action, or (c) the mechanism does not function as documented.
+
+**Finding:** Assistance Fund automated; Foundation budget discretionary. No tokenholder governance over either.
+
+### 2.3 Accrual Mechanism Control
+
+**Status: WARNING**
 
 | Parameter | Controller | Verification |
 |-----------|------------|--------------|
 | Fee rates | L1 code (closed source) | [UNVERIFIED] |
 | Assistance Fund % | L1 code (closed source) | [UNVERIFIED] |
 | Burn mechanism | Automated (per docs) | Documentation only |
+| Staking rewards | L1 code (closed source) | [UNVERIFIED] |
 
-**Finding:** While documentation describes an automated fee-to-HYPE conversion and burn mechanism, the actual parameter control cannot be verified because L1 code is closed source. The exact fee split percentages are not documented in official sources. There is no documented governance mechanism for tokenholders to change these parameters.
+**Fee Distribution:**
+- [UNVERIFIED] Majority of fees → Assistance Fund → HYPE buyback → **Accumulated (burn status unverified)**
+- Remainder → HLP Vault and deployers
+- Up to 50% → Spot/HIP-3 deployers (of their asset's fees)
 
-**Evidence Discrepancy:** The Assistance Fund holds 43.46M HYPE (~$1B), suggesting that either: (a) burns are batched and pending, (b) burn execution requires a separate governance action, or (c) the mechanism does not function as documented.
+**Note:** The exact percentage split between Assistance Fund and HLP is not specified in official documentation. The "97%" figure cited in secondary sources could not be verified against primary documentation.
+
+**Finding:** Fee parameters controlled at L1 level; no tokenholder governance. Tokenholders cannot modify fee rates or distribution.
+
+### 2.4 Offchain Value Accrual
+
+**Status: UNEVALUATED**
+
+No evidence of offchain value flows to tokenholders was found:
+- No documented revenue sharing agreements
+- No offchain dividend programs
+- No documented intellectual property licensing to token
+- Labs/Foundation retain offchain value
+
+**Finding:** No evidence of offchain value flows to tokenholders.
 
 ---
 
-## 5. Verifiability Assessment
+## Metric 3: Verifiability
 
-### 5.1 Verified Components
+### 3.1 Token Contract Source Verification
+
+**Status: NEUTRAL**
+
+**WHYPE (HyperEVM):**
+- Documentation claims source matches WETH
+- Address: `0x5555555555555555555555555555555555555555`
+- [UNVERIFIED] HyperScan verification status not confirmed via API
+
+**Native HYPE:**
+- Embedded in L1 consensus layer
+- Cannot be independently verified (closed source)
+- Behavior observable but code not auditable
+
+**Source:** https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/wrapped-hype
+
+**Finding:** WHYPE verified via documentation; native HYPE unverifiable due to closed source L1.
+
+### 3.2 Protocol Component Source Verification
+
+**Status: NEUTRAL**
+
+**Verified Components:**
 
 | Component | Verification Status | Source |
 |-----------|---------------------|--------|
 | Bridge2.sol | Source available on GitHub | https://github.com/hyperliquid-dex/contracts |
-| WHYPE | Documentation claims WETH clone, immutable | HyperScan verification not confirmed |
 | SDKs | MIT licensed, open source | https://github.com/hyperliquid-dex |
 | Node software | Apache 2.0 licensed | https://github.com/hyperliquid-dex/node |
 
-### 5.2 Unverifiable Components
+**Unverifiable Components:**
 
 | Component | Issue |
 |-----------|-------|
@@ -301,9 +426,7 @@ This means the Foundation maintains discretionary control over which validators 
 | Fee parameter storage | L1 state (closed source) |
 | Assistance Fund automation | L1 code (closed source) |
 
-### 5.3 Observable Behavior Tests
-
-While L1 code is closed source, certain behaviors can be observed:
+**Observable Behavior Tests:**
 
 | Test | Method | Result |
 |------|--------|--------|
@@ -312,11 +435,17 @@ While L1 code is closed source, certain behaviors can be observed:
 | Token transfers | Explorer data | Consistent behavior |
 | Bridge operations | Arbiscan events | Functioning |
 
+**Finding:** Bridge2 source available; L1 core is closed source.
+
 ---
 
-## 6. Token Distribution
+## Metric 4: Token Distribution
 
-### 6.1 Allocation
+### 4.1 Ownership Concentration
+
+**Status: WARNING**
+
+**Token Allocation:**
 
 | Category | Allocation | Status |
 |----------|------------|--------|
@@ -329,7 +458,7 @@ While L1 code is closed source, certain behaviors can be observed:
 
 **Source:** https://tokenomist.ai/hyperliquid
 
-### 6.2 Supply Metrics (2026-04-20)
+**Supply Metrics (2026-04-20):**
 
 | Metric | Value |
 |--------|-------|
@@ -338,7 +467,15 @@ While L1 code is closed source, certain behaviors can be observed:
 | Unlocked/Released | 425,244,480 HYPE (42.52%) |
 | Locked | 574,755,520 HYPE (57.48%) |
 
-### 6.3 Upcoming Unlocks
+**Staked Supply Concentration:**
+- Foundation validators: 53.74% of staked HYPE
+- Top 5 validators (4 Foundation + 1 independent): 58.26%
+
+**Finding:** Foundation controls 53.74% of validator stake; top 5 validators control 58.26%.
+
+### 4.2 Future Token Unlocks
+
+**Status: WARNING**
 
 **Next Unlock:** May 6, 2026
 - Amount: 9,916,667 HYPE (~$406.7M at current prices)
@@ -350,19 +487,17 @@ While L1 code is closed source, certain behaviors can be observed:
 - Monthly distributions on 6th of each month
 - Cliff-based (concentrated unlock events)
 
-### 6.4 Concentration Analysis
+**Key Risk:** While genesis was widely distributed, cliff vesting creates concentrated unlock events that could impact price.
 
-**Staked Supply Concentration:**
-- Foundation validators: 53.74% of staked HYPE
-- Top 5 validators (4 Foundation + 1 independent): 58.26%
-
-**Key Risk:** While genesis was widely distributed, the Foundation's validator stake concentration means governance power is not proportionally distributed among all tokenholders.
+**Finding:** Cliff vesting with next unlock May 2026 (2.33% impact).
 
 ---
 
-## 7. Offchain Dependencies
+## Metric 5: Offchain Dependencies
 
-### 7.1 Trademark
+### 5.1 Trademark
+
+**Status: WARNING**
 
 **Mark:** HYPERLIQUID
 **Applicant:** Hyper Foundation
@@ -371,7 +506,15 @@ While L1 code is closed source, certain behaviors can be observed:
 
 **Finding:** Trademark is held by Hyper Foundation, not a tokenholder-controlled entity. No documented governance link between tokenholders and Foundation trademark decisions.
 
-### 7.2 Corporate Entities
+### 5.2 Distribution (Primary Interface)
+
+**Status: WARNING**
+
+**Domain:** app.hyperliquid.xyz
+**Operator:** Likely Hyperliquid Labs Pte. Ltd.
+**Terms:** https://app.hyperliquid.xyz/terms (not analyzed)
+
+**Corporate Entities:**
 
 | Entity | Type | Location | Role |
 |--------|------|----------|------|
@@ -389,15 +532,11 @@ While L1 code is closed source, certain behaviors can be observed:
 - [Tracxn Company Profile](https://tracxn.com/d/legal-entities/singapore/hyperliquid-labs-pte.ltd./__5z3-XYkuxaOgiXpiqaVjHMZ90Wj3k0OKsnxTrPhMyo8)
 - [Hyperliquid Docs - Core Contributors](https://hyperliquid.gitbook.io/hyperliquid-docs/about-hyperliquid/core-contributors)
 
-### 7.3 Primary Interface
-
-**Domain:** app.hyperliquid.xyz
-**Operator:** Likely Hyperliquid Labs Pte. Ltd.
-**Terms:** https://app.hyperliquid.xyz/terms (not analyzed)
-
 **Finding:** Labs controls primary interface. No alternative decentralized interfaces documented.
 
-### 7.4 Licensing
+### 5.3 Licensing
+
+**Status: WARNING**
 
 | Component | License | Owner |
 |-----------|---------|-------|
@@ -410,9 +549,9 @@ While L1 code is closed source, certain behaviors can be observed:
 
 ---
 
-## 8. Risk Assessment
+## Risk Assessment
 
-### 8.1 Onchain Control Risks
+### Onchain Control Risks
 
 | Risk | Severity | Evidence |
 |------|----------|----------|
@@ -421,7 +560,7 @@ While L1 code is closed source, certain behaviors can be observed:
 | Discretionary Foundation delegation | MEDIUM | "reserves right to cease delegation" |
 | Closed source L1 | MEDIUM | Cannot verify token logic or fee handling |
 
-### 8.2 Value Accrual Risks
+### Value Accrual Risks
 
 | Risk | Severity | Evidence |
 |------|----------|----------|
@@ -429,7 +568,7 @@ While L1 code is closed source, certain behaviors can be observed:
 | No tokenholder control over fees | MEDIUM | No governance mechanism documented |
 | Burn mechanism unverified | MEDIUM | 43.46M HYPE accumulated but not burned |
 
-### 8.3 Distribution Risks
+### Distribution Risks
 
 | Risk | Severity | Evidence |
 |------|----------|----------|
@@ -439,7 +578,7 @@ While L1 code is closed source, certain behaviors can be observed:
 
 ---
 
-## 9. Framework Criteria Summary
+## Framework Criteria Summary
 
 ### Metric 1: Onchain Control
 
@@ -476,7 +615,7 @@ While L1 code is closed source, certain behaviors can be observed:
 | 4.1 Concentration | **WARNING** | Foundation 53.74% validator stake; top 5 = 58.26% |
 | 4.2 Future Unlocks | **WARNING** | Cliff vesting; next unlock May 2026 (2.33% impact) |
 
-### Offchain Dependencies
+### Metric 5: Offchain Dependencies
 
 | Criterion | Status | Notes |
 |-----------|--------|-------|
@@ -486,7 +625,7 @@ While L1 code is closed source, certain behaviors can be observed:
 
 ---
 
-## 10. Conclusion
+## Conclusion
 
 ### What Do HYPE Holders Own?
 
