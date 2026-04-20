@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-HYPE is the native token of Hyperliquid, an L1 blockchain running HyperBFT consensus with two components: HyperCore (onchain perps/spot orderbooks) and HyperEVM (EVM-compatible smart contracts). The token demonstrates active value accrual through automated fee buybacks and burns via the Assistance Fund. However, significant concerns exist around:
+HYPE is the native token of Hyperliquid, an L1 blockchain running HyperBFT consensus with two components: HyperCore (onchain perps/spot orderbooks) and HyperEVM (EVM-compatible smart contracts). The token has a documented value accrual mechanism through fee buybacks via the Assistance Fund, though the claimed burn mechanism shows discrepancies (43.46M HYPE accumulated but not yet burned). Significant concerns exist around:
 
 1. **Validator Concentration:** Hyper Foundation controls ~53.74% of staked HYPE across 5 validators
 2. **Verifiability:** The L1 code is closed source; only Bridge2 (Arbitrum) and WHYPE (HyperEVM) contracts are verifiable
@@ -204,9 +204,11 @@ This means the Foundation maintains discretionary control over which validators 
 | Spot Maker | 0.040% | Down to 0% |
 
 **Fee Distribution:**
-- 97% → Assistance Fund → HYPE buyback → **Burn**
-- 3% → HLP Vault
+- [UNVERIFIED] Majority of fees → Assistance Fund → HYPE buyback → **Accumulated (burn status unverified)**
+- Remainder → HLP Vault and deployers
 - Up to 50% → Spot/HIP-3 deployers (of their asset's fees)
+
+**Note:** The exact percentage split between Assistance Fund and HLP is not specified in official documentation. The "97%" figure cited in secondary sources could not be verified against primary documentation.
 
 ### 4.2 Assistance Fund
 
@@ -215,22 +217,28 @@ This means the Foundation maintains discretionary control over which validators 
 **Verified State (2026-04-20):**
 ```json
 {
-  "marginSummary": {
-    "accountValue": "1000.0",
-    "totalRawUsd": "1000.0"
-  }
+  "HYPE balance": "43,459,601.14 HYPE",
+  "Entry notional": "$1,066,893,148.58",
+  "Other tokens": "USDC, TRUMP, VAPOR, MEOW, etc."
 }
 ```
 
-**Source:** API query `{"type": "clearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}`
+**Source:** API query `{"type": "spotClearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}`
 
-**Mechanism:**
-1. Fees collected in USDC flow to Assistance Fund
+**Mechanism (per documentation):**
+1. Fees collected flow to Assistance Fund
 2. L1 execution automatically converts fees to HYPE
-3. HYPE is burned (permanently removed from supply)
+3. Documentation claims HYPE is burned
 
 **Documentation Quote:**
 > "HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply."
+
+**CRITICAL FINDING:** Despite documentation claiming burns, the Assistance Fund currently holds **43.46M HYPE** (~$1B at entry value). This indicates:
+- Burns may occur periodically (batch burns)
+- Burns may not have been executed yet
+- Or the claimed mechanism is not functioning as documented
+
+**Burn Status:** [UNVERIFIED] - Total supply remains 1B HYPE. No reduction in total supply has been observed that would indicate burns have occurred. The accumulated balance suggests HYPE is being converted but not yet burned.
 
 ### 4.3 Staking Rewards
 
@@ -266,7 +274,9 @@ This means the Foundation maintains discretionary control over which validators 
 | Assistance Fund % | L1 code (closed source) | [UNVERIFIED] |
 | Burn mechanism | Automated (per docs) | Documentation only |
 
-**Finding:** While documentation claims 97% of fees flow to Assistance Fund for automated burn, the actual parameter control cannot be verified because L1 code is closed source. There is no documented governance mechanism for tokenholders to change these parameters.
+**Finding:** While documentation describes an automated fee-to-HYPE conversion and burn mechanism, the actual parameter control cannot be verified because L1 code is closed source. The exact fee split percentages are not documented in official sources. There is no documented governance mechanism for tokenholders to change these parameters.
+
+**Evidence Discrepancy:** The Assistance Fund holds 43.46M HYPE (~$1B), suggesting that either: (a) burns are batched and pending, (b) burn execution requires a separate governance action, or (c) the mechanism does not function as documented.
 
 ---
 
@@ -368,7 +378,16 @@ While L1 code is closed source, certain behaviors can be observed:
 | Hyperliquid Labs Pte. Ltd. | Private Company | Singapore (202402326K) | Development |
 | Hyper Foundation | Foundation | Unknown | Token distribution, trademark |
 
-**Source:** https://www.sgpbusiness.com/company/Hyperliquid-Labs-Pte-Ltd
+**Company Details (Hyperliquid Labs Pte. Ltd.):**
+- Incorporated: January 16, 2024
+- UEN: 202402326K
+- Type: Exempt Private Company Limited by Shares
+- Address: 3 Pemimpin Drive #06-01, Lip Hing Industrial Building, Singapore 576147
+- Activity: Development of software and applications (except games and cybersecurity)
+
+**Sources:**
+- [Tracxn Company Profile](https://tracxn.com/d/legal-entities/singapore/hyperliquid-labs-pte.ltd./__5z3-XYkuxaOgiXpiqaVjHMZ90Wj3k0OKsnxTrPhMyo8)
+- [Hyperliquid Docs - Core Contributors](https://hyperliquid.gitbook.io/hyperliquid-docs/about-hyperliquid/core-contributors)
 
 ### 7.3 Primary Interface
 
@@ -408,7 +427,7 @@ While L1 code is closed source, certain behaviors can be observed:
 |------|----------|----------|
 | Fee parameter control unverified | MEDIUM | L1 closed source |
 | No tokenholder control over fees | MEDIUM | No governance mechanism documented |
-| Assistance Fund automation unverified | LOW | Documentation only |
+| Burn mechanism unverified | MEDIUM | 43.46M HYPE accumulated but not burned |
 
 ### 8.3 Distribution Risks
 
@@ -430,7 +449,7 @@ While L1 code is closed source, certain behaviors can be observed:
 | 1.2 Role Accountability | **WARNING** | Foundation discretionary delegation; validators can jail peers |
 | 1.3 Protocol Upgrade | **NEUTRAL** | Bridge2 non-upgradeable; L1 upgrades via validator consensus (closed source) |
 | 1.4 Token Upgrade | **NEUTRAL** | HYPE is native token; WHYPE documented as immutable |
-| 1.5 Supply Control | **POSITIVE** | Fixed 1B supply; burns via Assistance Fund |
+| 1.5 Supply Control | **NEUTRAL** | Fixed 1B supply; burns documented but 43.46M HYPE accumulated (not yet burned) |
 | 1.6 Access Gating | **WARNING** | Bridge lockers; 7-day unstaking queue; validator jailing |
 | 1.7 Censorship | **NEUTRAL** | No blacklist in Bridge2; L1 capabilities unverifiable |
 
@@ -438,7 +457,7 @@ While L1 code is closed source, certain behaviors can be observed:
 
 | Criterion | Status | Notes |
 |-----------|--------|-------|
-| 2.1 Accrual Active | **POSITIVE** | Documented buyback/burn via Assistance Fund; staking rewards active |
+| 2.1 Accrual Active | **NEUTRAL** | Buyback active (43.46M HYPE accumulated); burn status unverified; staking rewards active |
 | 2.2 Treasury Ownership | **NEUTRAL** | Assistance Fund automated; Foundation budget discretionary |
 | 2.3 Mechanism Control | **WARNING** | Fee parameters controlled at L1 level; no tokenholder governance |
 | 2.4 Offchain Accrual | **UNEVALUATED** | No evidence of offchain value flows to tokenholders |
@@ -475,7 +494,7 @@ While L1 code is closed source, certain behaviors can be observed:
 - Delegate to validators (indirect governance influence)
 - Earn staking rewards (~2.37% APY)
 - Receive fee discounts (5-40% based on stake)
-- Benefit from automated buyback/burn (supply reduction)
+- Benefit from automated buyback (43.46M HYPE accumulated; burn status unverified)
 
 **No Direct Control Over:**
 - Protocol parameters (closed source L1)
@@ -487,11 +506,13 @@ While L1 code is closed source, certain behaviors can be observed:
 ### Why Should HYPE Have Value?
 
 **Positive:** Active value accrual through:
-1. Automated fee buyback and permanent burn
-2. Staking rewards from emissions
-3. Fee discounts for stakers
+1. Automated fee buyback (43.46M HYPE accumulated; burns documented but not observed)
+2. Staking rewards from emissions (~2.37% APY)
+3. Fee discounts for stakers (5-40%)
 
-**Concern:** These mechanisms exist but cannot be verified or controlled by tokenholders.
+**Concern:**
+- The documented burn mechanism shows 43.46M HYPE accumulated but no supply reduction observed
+- These mechanisms cannot be verified or controlled by tokenholders due to closed-source L1
 
 ### What Threatens HYPE Value?
 
@@ -520,7 +541,7 @@ HYPE demonstrates active value accrual mechanisms but exhibits significant centr
 | HIP-1 Docs | https://hyperliquid.gitbook.io/hyperliquid-docs/hyperliquid-improvement-proposals-hips/hip-1-native-token-standard | 2026-04-20 |
 | Validator API | https://api.hyperliquid.xyz/info | 2026-04-20 |
 | Tokenomist | https://tokenomist.ai/hyperliquid | 2026-04-20 |
-| Labs Registration | https://www.sgpbusiness.com/company/Hyperliquid-Labs-Pte-Ltd | 2026-04-20 |
+| Labs Registration | https://tracxn.com/d/legal-entities/singapore/hyperliquid-labs-pte.ltd./ | 2026-04-20 |
 
 ## Appendix B: API Queries Used
 
@@ -531,11 +552,12 @@ curl -X POST https://api.hyperliquid.xyz/info \
   -d '{"type": "validatorSummaries"}'
 ```
 
-**Assistance Fund State:**
+**Assistance Fund State (Spot Balances):**
 ```bash
 curl -X POST https://api.hyperliquid.xyz/info \
   -H "Content-Type: application/json" \
-  -d '{"type": "clearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}'
+  -d '{"type": "spotClearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}'
+# Result: 43,459,601.14 HYPE (entry notional: $1,066,893,148.58)
 ```
 
 **Bridge2 Epoch (Arbitrum JSON-RPC):**
@@ -550,7 +572,7 @@ curl -X POST https://arb1.arbitrum.io/rpc \
 
 The following claims from documentation could not be independently verified:
 
-1. **Assistance Fund automation:** Documentation claims L1 automatically converts fees to HYPE and burns. The mechanism is embedded in closed-source L1 code.
+1. **Assistance Fund burn mechanism:** Documentation claims HYPE is burned, but the Assistance Fund holds 43.46M HYPE (~$1B). Either burns are batched/pending, require governance action, or are not functioning as documented.
 
 2. **WHYPE immutability:** Documentation claims WHYPE is identical to WETH and immutable. HyperScan verification status could not be confirmed via API.
 
