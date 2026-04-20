@@ -9,7 +9,7 @@
 
 ## Executive Summary
 
-HYPE is the native token of Hyperliquid, an L1 blockchain running HyperBFT consensus with two components: HyperCore (onchain perps/spot orderbooks) and HyperEVM (EVM-compatible smart contracts). The token has a documented value accrual mechanism through fee buybacks via the Assistance Fund, though the claimed burn mechanism shows discrepancies (43.46M HYPE accumulated but not yet burned). Significant concerns exist around:
+HYPE is the native token of Hyperliquid, an L1 blockchain running HyperBFT consensus with two components: HyperCore (onchain perps/spot orderbooks) and HyperEVM (EVM-compatible smart contracts). The token has a documented value accrual mechanism through fee buybacks via the Assistance Fund. Onchain data (2026-04-20) confirms the mechanism is partially active: 747,261.63 HYPE has been burned (total supply reduced from 1,000,000,000 to 999,252,738.37), but an additional 43.46M HYPE is held in the Assistance Fund pending burn — the cadence of the AF → burn step is not publicly documented. Significant concerns exist around:
 
 1. **Validator Concentration:** Hyper Foundation controls ~53.74% of staked HYPE across 5 validators
 2. **Verifiability:** The L1 code is closed source; only Bridge2 (Arbitrum) and WHYPE (HyperEVM) contracts are verifiable
@@ -174,8 +174,8 @@ Total staked: 434,566,219.98 HYPE
 |------|----------|--------|--------------|
 | Validator (active) | Produce blocks, vote on consensus | 24 addresses | API: `validatorSummaries` |
 | Jailing Authority | Jail underperforming validators | 2/3 validator quorum | Documentation only |
-| Fee Parameter Control | Set trading fees | [UNVERIFIED] | L1 closed source |
-| Assistance Fund Controller | Automated buyback/burn | System contract | Documentation only |
+| Fee Parameter Control | Set trading fees | Not independently verifiable | L1 closed source; Aragon has not been able to verify which role holds fee parameter authority |
+| Assistance Fund Controller | Automated buyback/burn | System address `0xfefe...fefe` | Documentation only; buyback behaviour observable onchain |
 
 **Delegation Program:**
 
@@ -196,8 +196,8 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 
 **HyperCore L1:**
 - Upgrades via validator consensus
-- Code is closed source - upgrade mechanism unverifiable
-- [UNVERIFIED] Whether tokenholders can influence upgrade decisions
+- Code is closed source - upgrade mechanism unverifiable from source
+- Tokenholders do not hold validator keys directly; influence is indirect via delegation (see 1.2). Aragon has not been able to verify any onchain mechanism for tokenholders (non-validators) to veto or trigger upgrades.
 
 **HyperEVM:**
 - Shares consensus with HyperCore
@@ -215,25 +215,35 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 - Upgrade would require L1 hard fork with 2/3 validator consensus
 
 **WHYPE (HyperEVM):**
-- Documented as immutable (WETH clone)
-- No upgrade mechanism per documentation
-- [UNVERIFIED] HyperScan verification status not confirmed via API
+- Deployed as immutable (WETH-style wrapper; contract name `WCTC`)
+- No proxy pattern: HyperScan API `proxy_type: null`, `minimal_proxy_address_hash: null`
+- Source verified on HyperScan (`is_verified: true`, compiler `v0.5.17+commit.d19bba13`, optimization enabled)
+- API query: `GET https://www.hyperscan.com/api/v2/smart-contracts/0x5555555555555555555555555555555555555555`
 
-**Finding:** HYPE is a native L1 token; WHYPE documented as immutable. No admin can unilaterally change token logic.
+**Finding:** HYPE is a native L1 token; WHYPE is an immutable, verified WETH-style wrapper with no proxy or upgrade path. No admin can unilaterally change token logic.
 
 ### 1.5 Supply Control
 
 **Status: NEUTRAL**
 
-**Total Supply:** 1,000,000,000 HYPE (fixed)
+**Max Supply:** 1,000,000,000 HYPE (fixed genesis)
 
 **Burn Mechanism (per documentation):**
 - Fees → Assistance Fund → HYPE buyback → Burn
 - Documentation claims permanent removal from supply
 
-**CRITICAL FINDING:** The Assistance Fund currently holds **43,459,601.14 HYPE** (~$1.07B at entry value).
+**Verified Supply State (2026-04-20):**
+```json
+{
+  "maxSupply": "1,000,000,000.00 HYPE",
+  "totalSupply": "999,252,738.37 HYPE",
+  "circulatingSupply": "298,873,248.18 HYPE",
+  "burned": "747,261.63 HYPE (0.0747% of max)"
+}
+```
+Source: API query `POST https://api.hyperliquid.xyz/info {"type":"tokenDetails","tokenId":"0x0d01dc56dcaaca66ad901c959b4011ec"}`
 
-**Verified State (2026-04-20):**
+**Assistance Fund Holdings (2026-04-20):**
 ```json
 {
   "HYPE balance": "43,459,601.14 HYPE",
@@ -241,12 +251,15 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
   "Other tokens": "USDC, TRUMP, VAPOR, MEOW, etc."
 }
 ```
+Source: API query `POST https://api.hyperliquid.xyz/info {"type": "spotClearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}`
 
-**Source:** API query `{"type": "spotClearinghouseState", "user": "0xfefefefefefefefefefefefefefefefefefefefe"}`
+**Burn Status — Verified Evidence:**
+- Genesis max supply: 1,000,000,000 HYPE
+- Current total supply: 999,252,738.37 HYPE
+- Delta: 747,261.63 HYPE has been removed from total supply (confirmed burned)
+- Assistance Fund holds an additional 43.46M HYPE that has been bought back but is held in the system address — these tokens still count toward total supply and have not been destroyed
 
-**Burn Status:** [UNVERIFIED] - Total supply remains 1B HYPE. No reduction in total supply has been observed. HYPE is being accumulated, not burned.
-
-**Finding:** Fixed 1B supply with no mint function. Burns documented but 43.46M HYPE accumulated (not yet burned).
+**Finding:** Fixed 1B max supply with no mint function. ~747K HYPE has been burned (total supply reduced). The Assistance Fund currently holds ~43.46M additional HYPE pending burn; the cadence of AF → burn is not documented in the GitBook and cannot be precisely modelled.
 
 ### 1.6 Privileged Access Gating
 
@@ -263,9 +276,9 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 - Cannot immediately exit staked position
 
 **Validator Jailing:**
-- 2/3 validator quorum can jail underperforming validators
-- Jailed validators lose block production rights
-- [UNVERIFIED] Jailing mechanism code (closed source)
+- 2/3 validator quorum can jail underperforming validators (per docs)
+- Jailed validators lose block production rights; API currently shows 4 jailed validators out of 30
+- The jailing logic itself sits in the closed-source L1 consensus code. Aragon has not been able to independently verify the exact jailing parameters (thresholds, slashing amounts) from source.
 
 **Finding:** Bridge lockers, 7-day unstaking queue, and validator jailing create access restrictions. These affect user exit paths.
 
@@ -279,8 +292,9 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 - No admin-controlled transfer restrictions
 
 **Native HYPE (L1):**
-- L1 capabilities unverifiable (closed source)
-- [UNVERIFIED] Whether censorship functions exist
+- L1 consensus code is closed source
+- No public censorship, blacklist, or freeze function is documented in the Hyperliquid GitBook
+- Aragon has not been able to independently verify from source whether any such capability exists on the L1; only the observable behaviour (no known censored accounts) can be inspected
 
 **WHYPE (HyperEVM):**
 - Documented as WETH clone (no blacklist)
@@ -298,9 +312,10 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 
 **Active Mechanisms:**
 
-1. **Fee Buyback:** Trading fees → Assistance Fund → HYPE accumulation
-   - Currently accumulated: 43.46M HYPE (~$1.07B)
-   - Burns documented but not observed
+1. **Fee Buyback:** Trading fees → Assistance Fund → HYPE accumulation → Burn
+   - HYPE burned to date (verified via total supply): 747,261.63 HYPE
+   - Currently accumulated in AF: 43,459,601.14 HYPE (~$1.07B)
+   - Burn cadence is not documented
 
 2. **Staking Rewards:** ~2.37% APY from future emissions reserves
    - Daily distribution, auto-recompounded
@@ -326,7 +341,7 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 | Spot Taker | 0.070% | Down to 0.025% |
 | Spot Maker | 0.040% | Down to 0% |
 
-**Finding:** Buyback active (43.46M HYPE accumulated); burn status unverified; staking rewards active.
+**Finding:** Buyback is active and observable onchain. 747,261.63 HYPE has been burned (total supply reduced from 1,000,000,000 to 999,252,738.37). An additional 43.46M HYPE is held in the Assistance Fund pending burn. Staking rewards are active (~2.37% APY observed).
 
 ### 2.2 Treasury Ownership
 
@@ -346,7 +361,7 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 **Documentation Quote:**
 > "HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply."
 
-**Evidence Discrepancy:** The Assistance Fund holds 43.46M HYPE (~$1B), suggesting either: (a) burns are batched and pending, (b) burn execution requires a separate governance action, or (c) the mechanism does not function as documented.
+**Evidence Discrepancy:** Total supply has decreased from the 1B genesis to 999,252,738.37 (verified burn of 747,261.63 HYPE). The Assistance Fund simultaneously holds 43.46M HYPE that has been bought back but not yet destroyed. The GitBook does not explain the cadence or trigger for the AF → burn step; this is the only documented discrepancy between narrative and observed behaviour.
 
 **Finding:** Assistance Fund automated; Foundation budget discretionary. No tokenholder governance over either.
 
@@ -354,19 +369,20 @@ The Hyper Foundation Delegation Program (https://hyperliquid.gitbook.io/hyperliq
 
 **Status: WARNING**
 
-| Parameter | Controller | Verification |
-|-----------|------------|--------------|
-| Fee rates | L1 code (closed source) | [UNVERIFIED] |
-| Assistance Fund % | L1 code (closed source) | [UNVERIFIED] |
-| Burn mechanism | Automated (per docs) | Documentation only |
-| Staking rewards | L1 code (closed source) | [UNVERIFIED] |
+| Parameter | Controller | Verification Basis |
+|-----------|------------|--------------------|
+| Fee rates | L1 consensus code (closed source); modifiable by validator consensus per docs | Observable onchain rates match docs; source code itself is not public, so Aragon has not been able to verify which role can modify these parameters |
+| Assistance Fund % | L1 consensus code (closed source) | GitBook states fees go to "HLP, the assistance fund, and deployers" without stating percentages; Aragon has not been able to verify the split from source |
+| Burn execution | Automated per docs; system address `0xfefe...fefe` | Partial burn observed onchain (747,261.63 HYPE removed from total supply) |
+| Staking rewards | L1 consensus code (closed source); ~2.37% APY observed | Aragon has not been able to verify the emission schedule from source |
 
-**Fee Distribution:**
-- [UNVERIFIED] Majority of fees → Assistance Fund → HYPE buyback → **Accumulated (burn status unverified)**
-- Remainder → HLP Vault and deployers
-- Up to 50% → Spot/HIP-3 deployers (of their asset's fees)
+**Fee Distribution (per official GitBook):**
+- Source: https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees
+- Exact quote: *"Fees are entirely directed to the community (HLP, the assistance fund, and deployers)."*
+- *"The assistance fund uses the system address 0xfefefefefefefefefefefefefefefefefefefefe. It converts trading fees to HYPE in a fully automated manner as part of the L1 execution. HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply."*
+- *"Spot and HIP-3 perp deployers may choose to keep up to 50% of trading fees generated by their deployed assets."*
 
-**Note:** The exact percentage split between Assistance Fund and HLP is not specified in official documentation. The "97%" figure cited in secondary sources could not be verified against primary documentation.
+**Note on "97%" figure:** The "97%" allocation appears in secondary reporting (e.g. DL News) but is not stated in official Hyperliquid documentation. Aragon has not been able to verify this figure against a primary source and does not rely on it.
 
 **Finding:** Fee parameters controlled at L1 level; no tokenholder governance. Tokenholders cannot modify fee rates or distribution.
 
@@ -391,9 +407,9 @@ No evidence of offchain value flows to tokenholders was found:
 **Status: NEUTRAL**
 
 **WHYPE (HyperEVM):**
-- Documentation claims source matches WETH
 - Address: `0x5555555555555555555555555555555555555555`
-- [UNVERIFIED] HyperScan verification status not confirmed via API
+- Source verified on HyperScan (`is_verified: true`); contract name `WCTC` (Wrapped Core Token Contract), WETH-style wrapper; compiler `v0.5.17+commit.d19bba13`; optimization enabled; no proxy
+- API: `GET https://www.hyperscan.com/api/v2/smart-contracts/0x5555555555555555555555555555555555555555` → returns full source
 
 **Native HYPE:**
 - Embedded in L1 consensus layer
@@ -462,7 +478,9 @@ No evidence of offchain value flows to tokenholders was found:
 
 | Metric | Value |
 |--------|-------|
-| Total Supply | 1,000,000,000 HYPE |
+| Max Supply (genesis) | 1,000,000,000 HYPE |
+| Total Supply (2026-04-20, verified onchain) | 999,252,738.37 HYPE |
+| Circulating Supply (2026-04-20, verified onchain) | 298,873,248.18 HYPE |
 | Circulating Supply | 238,385,315 HYPE (23.84%) |
 | Unlocked/Released | 425,244,480 HYPE (42.52%) |
 | Locked | 574,755,520 HYPE (57.48%) |
@@ -564,9 +582,9 @@ No evidence of offchain value flows to tokenholders was found:
 
 | Risk | Severity | Evidence |
 |------|----------|----------|
-| Fee parameter control unverified | MEDIUM | L1 closed source |
+| Fee parameters not independently verifiable from source | MEDIUM | L1 closed source; Aragon relies on documentation and observed onchain rates |
 | No tokenholder control over fees | MEDIUM | No governance mechanism documented |
-| Burn mechanism unverified | MEDIUM | 43.46M HYPE accumulated but not burned |
+| AF → burn cadence not documented | MEDIUM | 747K HYPE burned to date; 43.46M HYPE accumulated in AF without documented burn schedule |
 
 ### Distribution Risks
 
@@ -588,7 +606,7 @@ No evidence of offchain value flows to tokenholders was found:
 | 1.2 Role Accountability | **WARNING** | Foundation discretionary delegation; validators can jail peers |
 | 1.3 Protocol Upgrade | **NEUTRAL** | Bridge2 non-upgradeable; L1 upgrades via validator consensus (closed source) |
 | 1.4 Token Upgrade | **NEUTRAL** | HYPE is native token; WHYPE documented as immutable |
-| 1.5 Supply Control | **NEUTRAL** | Fixed 1B supply; burns documented but 43.46M HYPE accumulated (not yet burned) |
+| 1.5 Supply Control | **NEUTRAL** | Fixed 1B max supply; 747K HYPE verified burned; 43.46M HYPE accumulated in AF pending burn |
 | 1.6 Access Gating | **WARNING** | Bridge lockers; 7-day unstaking queue; validator jailing |
 | 1.7 Censorship | **NEUTRAL** | No blacklist in Bridge2; L1 capabilities unverifiable |
 
@@ -596,7 +614,7 @@ No evidence of offchain value flows to tokenholders was found:
 
 | Criterion | Status | Notes |
 |-----------|--------|-------|
-| 2.1 Accrual Active | **NEUTRAL** | Buyback active (43.46M HYPE accumulated); burn status unverified; staking rewards active |
+| 2.1 Accrual Active | **NEUTRAL** | Buyback active; 747K HYPE burned and 43.46M HYPE accumulated in AF pending burn; staking rewards active |
 | 2.2 Treasury Ownership | **NEUTRAL** | Assistance Fund automated; Foundation budget discretionary |
 | 2.3 Mechanism Control | **WARNING** | Fee parameters controlled at L1 level; no tokenholder governance |
 | 2.4 Offchain Accrual | **UNEVALUATED** | No evidence of offchain value flows to tokenholders |
@@ -633,7 +651,7 @@ No evidence of offchain value flows to tokenholders was found:
 - Delegate to validators (indirect governance influence)
 - Earn staking rewards (~2.37% APY)
 - Receive fee discounts (5-40% based on stake)
-- Benefit from automated buyback (43.46M HYPE accumulated; burn status unverified)
+- Benefit from automated buyback (747K HYPE burned; 43.46M HYPE accumulated in AF pending burn)
 
 **No Direct Control Over:**
 - Protocol parameters (closed source L1)
@@ -645,13 +663,13 @@ No evidence of offchain value flows to tokenholders was found:
 ### Why Should HYPE Have Value?
 
 **Positive:** Active value accrual through:
-1. Automated fee buyback (43.46M HYPE accumulated; burns documented but not observed)
+1. Automated fee buyback: 747,261.63 HYPE verifiably burned (total supply reduced); 43.46M HYPE currently accumulated in AF pending burn
 2. Staking rewards from emissions (~2.37% APY)
 3. Fee discounts for stakers (5-40%)
 
 **Concern:**
-- The documented burn mechanism shows 43.46M HYPE accumulated but no supply reduction observed
-- These mechanisms cannot be verified or controlled by tokenholders due to closed-source L1
+- The AF → burn cadence is not documented; users cannot predict when accumulated HYPE will be destroyed
+- Fee rate and distribution parameters cannot be inspected at the source level due to closed-source L1; tokenholders have no direct control over them
 
 ### What Threatens HYPE Value?
 
@@ -699,6 +717,20 @@ curl -X POST https://api.hyperliquid.xyz/info \
 # Result: 43,459,601.14 HYPE (entry notional: $1,066,893,148.58)
 ```
 
+**HYPE Supply Details (Spot):**
+```bash
+curl -X POST https://api.hyperliquid.xyz/info \
+  -H "Content-Type: application/json" \
+  -d '{"type": "tokenDetails", "tokenId": "0x0d01dc56dcaaca66ad901c959b4011ec"}'
+# Result: maxSupply 1,000,000,000; totalSupply 999,252,738.37; circulatingSupply 298,873,248.18
+```
+
+**WHYPE Source Verification (HyperScan):**
+```bash
+curl -s "https://www.hyperscan.com/api/v2/smart-contracts/0x5555555555555555555555555555555555555555"
+# Result: is_verified=true; name=WCTC; compiler=v0.5.17+commit.d19bba13; optimization=true; proxy_type=null
+```
+
 **Bridge2 Epoch (Arbitrum JSON-RPC):**
 ```bash
 curl -X POST https://arb1.arbitrum.io/rpc \
@@ -707,19 +739,17 @@ curl -X POST https://arb1.arbitrum.io/rpc \
 # Result: epoch = 7
 ```
 
-## Appendix C: Unverified Claims
+## Appendix C: Items Aragon Could Not Independently Verify
 
-The following claims from documentation could not be independently verified:
+The following items depend on code that is not publicly available. Each is flagged in the body of the report where relevant. Aragon has not been able to independently verify them from source; the corresponding findings rely on observable onchain behaviour and official Hyperliquid documentation.
 
-1. **Assistance Fund burn mechanism:** Documentation claims HYPE is burned, but the Assistance Fund holds 43.46M HYPE (~$1B). Either burns are batched/pending, require governance action, or are not functioning as documented.
+1. **L1 consensus code:** HyperCore and HyperEVM consensus logic is closed source. Aragon has not been able to verify from source: (a) which role can modify fee parameters, (b) the exact fee split between HLP / Assistance Fund / deployers, (c) the validator jailing thresholds, (d) any possible censorship or freeze capability at the L1 level, (e) the EIP-1559 base-fee burn on HyperEVM, and (f) the staking emission schedule.
 
-2. **WHYPE immutability:** Documentation claims WHYPE is identical to WETH and immutable. HyperScan verification status could not be confirmed via API.
+2. **Assistance Fund → burn cadence:** The GitBook states that HYPE in the Assistance Fund is "burned, removing the tokens permanently from the circulating and total supply." Aragon has verified that 747,261.63 HYPE has been removed from total supply (genesis 1B → current 999,252,738.37). The cadence or trigger that moves HYPE from the Assistance Fund (current balance 43.46M) to the destroyed state is not documented.
 
-3. **Fee parameter immutability:** No documentation confirms whether fee parameters can be changed, or by whom.
+3. **Tokenholder (non-validator) influence on upgrades:** Aragon has not been able to verify any onchain mechanism for HYPE holders who are not validators to veto, trigger, or sign off on L1 upgrades. Influence is indirect via delegation to validators.
 
-4. **Jailing mechanism:** Peer voting for jailing is documented but the code is closed source.
-
-5. **EIP-1559 burn on HyperEVM:** Documentation claims base fees are burned. Cannot verify in closed-source code.
+These items are flagged here for transparency and are reflected in the status ratings of the relevant sub-sections (notably 1.2, 1.3, 1.6, 1.7, 2.3, and 3.2).
 
 ---
 
