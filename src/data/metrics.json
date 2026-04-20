@@ -5071,7 +5071,7 @@
         "Metric 1"
       ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
-      "summary": "Hyperliquid uses validator stake-weighted consensus rather than smart contract governance. HYPE holders delegate to validators who vote on changes via HyperBFT. The Hyper Foundation controls 54% of staked HYPE across five validators, making governance outcomes effectively Foundation-determined. The L1 code is closed source, preventing independent verification of token logic or fee handling. The Bridge2 contract on Arbitrum is non-upgradeable and uses validator quorum signatures.",
+      "summary": "Hyperliquid uses validator stake-weighted consensus rather than smart contract governance. HYPE holders delegate to validators who vote on changes via HyperBFT. The Hyper Foundation controls 54% of staked HYPE across five validators, making governance outcomes effectively Foundation-determined. The L1 code is closed source, so Aragon has not been able to verify token logic or fee handling from source. The Bridge2 contract on Arbitrum is non-upgradeable and uses validator quorum signatures. WHYPE on HyperEVM is source-verified and immutable. Max supply is fixed at 1B HYPE with 747K verifiably burned.",
       "criteria": [
         {
           "id": "onchain-ctrl__governance-workflow",
@@ -5165,12 +5165,17 @@
           "name": "Token Upgrade Authority",
           "about": "Assesses whether token behavior can be modified and, if so, whether such changes are controlled by tokenholder governance.",
           "status": "neutral",
-          "notes": "HYPE is an L1 native token with no upgrade mechanism beyond L1 protocol changes. **WHYPE** (wrapped HYPE on HyperEVM) is documented as immutable with identical source to WETH on Ethereum. Aragon developers have not been able to verify WHYPE immutability via HyperScan API.",
+          "notes": "HYPE is an L1 native token embedded in the consensus layer with no proxy pattern; any change would require an L1 hard fork via validator consensus. **WHYPE** (wrapped HYPE on HyperEVM) is an **immutable WETH-style wrapper** with source verified on HyperScan. No admin can unilaterally change token logic.",
           "evidence": [
             {
-              "name": "WHYPE Documentation",
-              "summary": "WHYPE at address 0x5555555555555555555555555555555555555555 on HyperEVM is documented as an immutable WETH clone with 18 decimals. Documentation claims no upgrade mechanism exists.",
+              "name": "WHYPE Verified Immutable",
+              "summary": "HyperScan API confirms WHYPE at 0x5555555555555555555555555555555555555555 is verified (is_verified: true), contract name WCTC (Wrapped Core Token Contract), compiler v0.5.17+commit.d19bba13, optimization enabled, no proxy pattern (proxy_type: null).",
               "urls": [
+                {
+                  "name": "HyperScan Smart Contract API",
+                  "url": "https://www.hyperscan.com/api/v2/smart-contracts/0x5555555555555555555555555555555555555555",
+                  "type": "explorer"
+                },
                 {
                   "name": "WHYPE Documentation",
                   "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/wrapped-hype",
@@ -5185,22 +5190,22 @@
           "name": "Supply Control",
           "about": "Evaluates whether token supply changes are programmatic or subject exclusively to tokenholder-approved governance processes.",
           "status": "neutral",
-          "notes": "Total supply is fixed at **1 billion HYPE**. Documentation claims the Assistance Fund burns accumulated HYPE, but the fund currently holds **43.5M HYPE** (~$1B at entry value) with no observable reduction in total supply. Aragon developers have not been able to verify whether burns have occurred or are batched for future execution.",
+          "notes": "Max supply is fixed at **1 billion HYPE** with no mint function. Onchain data confirms **747,261.63 HYPE has been burned** (total supply reduced to 999,252,738.37). The Assistance Fund holds an additional **43.46M HYPE** pending burn. Aragon developers have not been able to verify the cadence or trigger that moves HYPE from the Assistance Fund to the destroyed state, as this is not documented.",
           "evidence": [
             {
-              "name": "Assistance Fund Balance",
-              "summary": "The Assistance Fund at system address 0xfefefefefefefefefefefefefefefefefefefefe holds 43,459,601 HYPE as of April 2026. Entry notional value: $1.07B. Total supply remains 1B HYPE.",
+              "name": "Verified Supply State",
+              "summary": "Hyperliquid tokenDetails API confirms: maxSupply 1,000,000,000 HYPE, totalSupply 999,252,738.37 HYPE, circulatingSupply 298,873,248.18 HYPE. Delta from genesis: 747,261.63 HYPE burned (0.0747% of max).",
               "urls": [
                 {
-                  "name": "Hyperliquid API (spotClearinghouseState)",
+                  "name": "Hyperliquid API (tokenDetails)",
                   "url": "https://api.hyperliquid.xyz/info",
                   "type": "docs"
                 }
               ]
             },
             {
-              "name": "Burn Mechanism Documentation",
-              "summary": "Per documentation: \"HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply.\" However, the accumulated balance and unchanged total supply indicate burns may be batched, pending, or not functioning as documented.",
+              "name": "Assistance Fund Holdings",
+              "summary": "The Assistance Fund at system address 0xfefefefefefefefefefefefefefefefefefefefe holds 43,459,601 HYPE (entry notional $1.07B) pending burn. These tokens have been bought back but still count toward total supply until destroyed. The AF → burn cadence is not documented in the GitBook.",
               "urls": [
                 {
                   "name": "Fee Documentation",
@@ -5276,22 +5281,27 @@
         "Metric 2"
       ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
-      "summary": "HYPE has an active fee buyback mechanism where trading fees flow to the Assistance Fund and are converted to HYPE. The Assistance Fund holds 43.5M HYPE (~$1B), but Aragon developers have not been able to verify that burns occur as documented. Stakers earn ~2.4% APY from emissions and receive trading fee discounts (5-40% based on stake tier). Fee parameters are controlled at the L1 level with no documented tokenholder governance mechanism.",
+      "summary": "HYPE has an active fee buyback mechanism where trading fees flow to the Assistance Fund and are converted to HYPE. Onchain data confirms 747,261.63 HYPE has been burned (total supply reduced to 999,252,738.37) with an additional 43.46M HYPE held in the Assistance Fund pending burn. Stakers earn ~2.4% APY from emissions and receive trading fee discounts (5-40% based on stake tier). Fee parameters are controlled at the L1 level with no tokenholder governance, and Aragon has not been able to verify the exact fee split or burn cadence from source.",
       "criteria": [
         {
           "id": "val-accrual__active",
           "name": "Accrual Active",
           "about": "Assesses whether value flows to tokenholders are currently active rather than merely theoretical or proposed.",
           "status": "neutral",
-          "notes": "Value accrual mechanisms are **active but partially unverifiable**. The Assistance Fund has accumulated 43.5M HYPE from fee conversions, but burns are not observable (total supply unchanged). Staking rewards are active at ~2.37% APY. Fee discounts (5-40%) are active for stakers. The exact fee split percentages are not specified in official documentation.",
+          "notes": "Value accrual is **active and partially verifiable onchain**. Fee buyback has burned **747,261.63 HYPE** (total supply reduced from 1B to 999,252,738.37). An additional **43.46M HYPE** sits in the Assistance Fund pending burn. Staking rewards are active at ~2.37% APY. Fee discounts (5-40%) are active for stakers.",
           "evidence": [
             {
-              "name": "Assistance Fund Accumulation",
-              "summary": "The Assistance Fund holds 43,459,601 HYPE with entry notional of $1.07B as of April 2026. This demonstrates active fee-to-HYPE conversion, but the claimed burn mechanism shows no supply reduction.",
+              "name": "Fee Buyback and Burn",
+              "summary": "Hyperliquid tokenDetails API confirms 747,261.63 HYPE has been verifiably burned (maxSupply 1B minus totalSupply 999,252,738.37). The Assistance Fund holds 43,459,601 HYPE pending burn. Per GitBook: fees are \"entirely directed to the community (HLP, the assistance fund, and deployers).\"",
               "urls": [
                 {
-                  "name": "Hyperliquid API",
+                  "name": "Hyperliquid API (tokenDetails)",
                   "url": "https://api.hyperliquid.xyz/info",
+                  "type": "docs"
+                },
+                {
+                  "name": "Fee Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
                   "type": "docs"
                 }
               ]
@@ -5325,11 +5335,11 @@
           "name": "Treasury Ownership",
           "about": "Determines whether protocol treasury assets are programmatically controlled by tokenholder governance.",
           "status": "neutral",
-          "notes": "The Assistance Fund operates as an **automated system contract** with L1-level control. The Hyper Foundation Budget (6% of total supply) is controlled at Foundation discretion with no transparency reports published. No documented mechanism exists for tokenholders to direct treasury spending.",
+          "notes": "The Assistance Fund operates as an **automated system contract** with L1-level control. Total supply has decreased from 1B to 999,252,738.37 HYPE (747,261.63 HYPE burned) with 43.46M held pending burn. The Hyper Foundation Budget (6% of total supply) is controlled at Foundation discretion with no transparency reports published. No documented mechanism exists for tokenholders to direct treasury spending.",
           "evidence": [
             {
               "name": "Assistance Fund Automation",
-              "summary": "Per documentation, the Assistance Fund converts trading fees to HYPE automatically as part of L1 execution. The mechanism is not tokenholder-controlled but also not discretionary human-controlled.",
+              "summary": "Per GitBook: \"The assistance fund uses the system address 0xfefefefefefefefefefefefefefefefefefefefe. It converts trading fees to HYPE in a fully automated manner as part of the L1 execution. HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply.\" The mechanism is not tokenholder-controlled.",
               "urls": [
                 {
                   "name": "Fee Documentation",
@@ -5356,11 +5366,11 @@
           "name": "Accrual Mechanism Control",
           "about": "Evaluates whether tokenholders can modify parameters governing value capture, such as fees or revenue routing.",
           "status": "warning",
-          "notes": "Fee parameters are **controlled at the L1 level** with no documented tokenholder governance mechanism. The exact fee split between Assistance Fund and HLP is not specified in official documentation. Spot/HIP-3 deployers can retain up to 50% of their asset's fees. All parameter control is closed-source and unverifiable.",
+          "notes": "Fee parameters are **controlled at the L1 consensus layer** with no documented tokenholder governance. The GitBook states fees go to \"HLP, the assistance fund, and deployers\" but does not specify the split. Spot/HIP-3 deployers may keep up to 50% of their asset's fees. Aragon developers have not been able to verify from source which role can modify fee parameters or the exact split between HLP and the Assistance Fund.",
           "evidence": [
             {
-              "name": "Fee Parameter Control",
-              "summary": "Trading fees: Perps taker 0.045% (down to 0.024%), maker 0.015% (to 0%). Spot taker 0.070% (to 0.025%), maker 0.040% (to 0%). No governance mechanism documented for changing these parameters.",
+              "name": "Fee Structure (verified onchain)",
+              "summary": "Trading fees observable onchain match docs: Perps taker 0.045% (down to 0.024%), maker 0.015% (to 0%). Spot taker 0.070% (to 0.025%), maker 0.040% (to 0%). GitBook directly states: \"Spot and HIP-3 perp deployers may choose to keep up to 50% of trading fees generated by their deployed assets.\"",
               "urls": [
                 {
                   "name": "Fee Structure",
@@ -5370,8 +5380,8 @@
               ]
             },
             {
-              "name": "Closed Source L1",
-              "summary": "Fee parameter storage and modification logic are in L1 code which is closed source. Aragon developers have not been able to verify who can change fee parameters or how.",
+              "name": "Closed Source Parameter Control",
+              "summary": "Fee parameter storage and modification logic are in the L1 consensus code, which is not public. Aragon developers have not been able to verify from source which role controls fee rates, the exact fee split between HLP and Assistance Fund, or the staking emission schedule. The \"97%\" figure referenced in secondary reporting does not appear in primary documentation.",
               "urls": [
                 {
                   "name": "Node Software (partial)",
@@ -5402,19 +5412,24 @@
         "Metric 3"
       ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
-      "summary": "Hyperliquid presents a mixed verifiability picture. The Bridge2 contract on Arbitrum is verified with source available on GitHub. WHYPE on HyperEVM is documented as immutable but verification status cannot be confirmed via API. The L1 core (HyperBFT consensus, HyperCore execution, native HYPE token logic, fee handling) is entirely closed source and cannot be independently verified.",
+      "summary": "Hyperliquid presents a mixed verifiability picture. The Bridge2 contract on Arbitrum is verified with source available on GitHub. WHYPE on HyperEVM is source-verified on HyperScan (compiler v0.5.17, no proxy). The L1 core (HyperBFT consensus, HyperCore execution, native HYPE token logic, fee handling) is entirely closed source. Aragon has not been able to verify the L1 code from source.",
       "criteria": [
         {
           "id": "verifiability__token-source",
           "name": "Token Contract Source Verification",
           "about": "Determines whether the token contract's source code is publicly available and verifiably matches the deployed bytecode.",
           "status": "neutral",
-          "notes": "Native HYPE token logic is **embedded in the closed-source L1** and cannot be verified. WHYPE on HyperEVM is documented as a WETH clone identical to Ethereum mainnet WETH. Aragon developers have not been able to confirm WHYPE verification status via HyperScan API.",
+          "notes": "**WHYPE is source-verified** on HyperScan (WETH-style wrapper, compiler v0.5.17, no proxy). **Native HYPE** token logic is embedded in the closed-source L1 consensus layer and cannot be independently verified from source. Behavior is observable onchain but code is not auditable.",
           "evidence": [
             {
-              "name": "WHYPE Documentation",
-              "summary": "WHYPE at 0x5555555555555555555555555555555555555555 is documented as immutable with same source as WETH. 18 decimals, standard ERC-20 interface.",
+              "name": "WHYPE Source Verified",
+              "summary": "HyperScan API confirms WHYPE at 0x5555555555555555555555555555555555555555 is verified (is_verified: true), contract name WCTC, compiler v0.5.17+commit.d19bba13, optimization enabled, no proxy. Full source is available via HyperScan API.",
               "urls": [
+                {
+                  "name": "HyperScan Smart Contract API",
+                  "url": "https://www.hyperscan.com/api/v2/smart-contracts/0x5555555555555555555555555555555555555555",
+                  "type": "explorer"
+                },
                 {
                   "name": "WHYPE Documentation",
                   "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/wrapped-hype",
@@ -5423,8 +5438,8 @@
               ]
             },
             {
-              "name": "L1 Closed Source",
-              "summary": "The native HYPE token exists at L1 protocol level. All token logic (transfers, balances, staking integration) is in closed-source L1 code.",
+              "name": "Native HYPE L1 Closed Source",
+              "summary": "The native HYPE token exists at the L1 protocol level. All token logic (transfers, balances, staking integration) is embedded in closed-source L1 consensus code. Behavior is observable onchain but the code itself is not auditable.",
               "urls": [
                 {
                   "name": "HIP-1 Native Token Standard",
@@ -5440,7 +5455,7 @@
           "name": "Protocol Component Source Verification",
           "about": "Determines whether core protocol contracts are publicly accessible and verifiable against their onchain deployments.",
           "status": "neutral",
-          "notes": "**Bridge2.sol is fully verifiable** with source on GitHub matching deployed bytecode on Arbitrum. SDKs are MIT licensed and open source. Node software is Apache 2.0 licensed. However, HyperBFT consensus and HyperCore execution (the economically critical components) are closed source.",
+          "notes": "**Bridge2.sol is fully verifiable** with source on GitHub matching deployed bytecode on Arbitrum. SDKs are MIT licensed and open source. Node software is Apache 2.0 licensed. However, HyperBFT consensus and HyperCore execution (the economically critical components) are closed source. Aragon has not been able to verify the L1 code from source.",
           "evidence": [
             {
               "name": "Verified Components",
