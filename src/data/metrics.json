@@ -3,7 +3,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "AAVE, stkAAVE and aAAVE holders control the protocol through onchain governance with Timelock execution. The token has fixed 16M supply with no mint function. Delegated steward roles exist but are elected and revocable by governance.",
       "criteria": [
@@ -233,7 +235,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "Protocol fees flow to a governance-controlled treasury. Holders can stake as stkAAVE in Safety Module for yield. Treasury composed of reserve factor from borrower interest + liquidation fees + flashloan premiums.",
       "criteria": [
@@ -334,7 +338,9 @@
         {
           "id": "val-accrual__offchain",
           "name": "Offchain Value Accrual",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "Aragon has not verified additional offchain value accrual flows to the AAVE token",
@@ -345,7 +351,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "AAVE token proxy and implementation are verified on Etherscan. Aave V3 protocol contracts are open source and verified.",
       "criteria": [
@@ -395,7 +403,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "Aragon has not verified if any 3rd party controls a majority share of the voting power of AAVE or derivatives.",
       "criteria": [
@@ -420,7 +430,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "US AAVE trademark is held by Quantum Swan OU (Estonia). Primary interface terms identify Aave Labs (a separate entity from the Aave DAO) as the contracting party.",
       "criteria": [
@@ -475,7 +487,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "Aerodrome's core contracts are largely immutable with control of emissions given to veAERO holders via the gauge voting system. There are some minor areas in which privileged parties can control specific areas of the protocol, which are detailed below.",
       "criteria": [
@@ -742,7 +756,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "veAERO holders receive growth emissions and trading fees from staked LP positions. There is no protocol treasury - all trading fees are distributed. Offchain brand controlled by Aerodrome Foundation.",
       "criteria": [
@@ -890,7 +906,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "AERO token source is publicly available on GitHub and verified on Basescan. Aerodrome protocol contracts are open source and verified.",
       "criteria": [
@@ -945,7 +963,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "Distribution of AERO and veAERO voting power outside of the core team has not been independently verified.",
       "criteria": [
@@ -970,7 +990,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "US AERODROME trademark is held by Perpetual Cyclist Services LLC (Delaware). Primary interface terms identify the Aerodrome Foundation as the contracting party.",
       "criteria": [
@@ -1025,7 +1047,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "veCRV holders control all protocol operations through Aragon v1's Voting Contract and Agent. The CRV token is immutable with programmatic inflation and no censorship capabilities. Core protocol and pool contracts are immutable.",
       "criteria": [
@@ -1242,7 +1266,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "veCRV holders receive 50% of all trading fees distributed as crvUSD rewards. Value flows are programmatic through the gauge system. Offchain structure shows Swiss Stake AG controls the interface and trademark.",
       "criteria": [
@@ -1361,7 +1387,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "CRV token source (Vyper) is publicly available on GitHub and verified on Etherscan. Curve DAO contracts are open source and verified.",
       "criteria": [
@@ -1411,7 +1439,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "Aragon has not verified if the majority of veCRV voting power lies with a single party.",
       "criteria": [
@@ -1446,7 +1476,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Swiss CRV trademark is held by Swiss Stake AG. Curve interface terms identify Swiss Stake AG (Zug, Switzerland) as the contracting party.",
       "criteria": [
@@ -1501,7 +1533,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "ENA governance is advisory only. Tokenholders vote via Snapshot, but the Dev Multisig executes all decisions. There is no onchain governance workflow, no timelock, and ENA holders cannot elect or remove multisig signers. The ENA token itself is non-upgradeable, but sENA and rsENA are upgradeable proxies controlled by separate multisigs. Staking contracts include blacklist capabilities with seizure powers.",
       "criteria": [
@@ -1804,7 +1838,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "No active programmatic value accrual to ENA holders. **sUSDe holders receive USDe yield** from protocol operations; **sENA holders do NOT receive this yield**, only ecosystem airdrops. rsENA holders receive Symbiotic restaking rewards. Treasury flows through multisig-controlled wallets. All accrual mechanisms are controlled by multisigs or EOAs, not tokenholders.",
       "criteria": [
@@ -1875,11 +1911,11 @@
           "name": "Treasury Ownership",
           "about": "Determines whether protocol treasury assets are programmatically controlled by tokenholder governance.",
           "status": "warning",
-          "notes": "Protocol revenue flows through multisig-controlled wallets. **Treasury is NOT tokenholder-controlled.** Revenue flows: Hot Swap \u2192 sUSDe Payout \u2192 StakingRewardsDistributor \u2192 sUSDe stakers. ENA tokenholders do NOT control treasury flows.",
+          "notes": "Protocol revenue flows through multisig-controlled wallets. **Treasury is NOT tokenholder-controlled.** Revenue flows: Hot Swap → sUSDe Payout → StakingRewardsDistributor → sUSDe stakers. ENA tokenholders do NOT control treasury flows.",
           "evidence": [
             {
               "name": "Revenue Flow",
-              "summary": "Protocol Operations (delta-neutral strategies)\n\u2192 **Hot Swap Multisig** (receives revenue, converts to USDe)\n\u2192 **sUSDe Payout Multisig**\n\u2192 **StakingRewardsDistributor**\n\u2192 sUSDe Stakers\n\nENA/sENA holders are NOT in this flow unless fee switch activates.",
+              "summary": "Protocol Operations (delta-neutral strategies)\n→ **Hot Swap Multisig** (receives revenue, converts to USDe)\n→ **sUSDe Payout Multisig**\n→ **StakingRewardsDistributor**\n→ sUSDe Stakers\n\nENA/sENA holders are NOT in this flow unless fee switch activates.",
               "urls": [
                 {
                   "name": "Key Addresses Documentation",
@@ -1998,7 +2034,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "All core contracts are verified on Etherscan and open source on GitHub. Multiple security audits completed.",
       "criteria": [
@@ -2104,7 +2142,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "70% insider allocation. Vesting unlocks continue through April 2028 for all categories. Circulating supply is approximately 55% of total.",
       "criteria": [
@@ -2235,7 +2275,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "LDO holders exercise ultimate control through a multi-step governance flow with stETH holder veto protection via Dual Governance. All critical roles flow through governance-controlled contracts. The token has unbounded supply controlled by governance, with token behavior modifiable through controller upgrades.",
       "criteria": [
@@ -2553,7 +2595,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "LDO holders currently have no direct value accrual mechanism from protocol revenue. Governance is exploring buyback mechanisms. The treasury is controlled by LDO holders, and offchain IP is held by DAO-controlled BORG foundations.",
       "criteria": [
@@ -2637,7 +2681,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "LDO token source is publicly available and verified on Etherscan. Lido core protocol contracts are open source and verified.",
       "criteria": [
@@ -2687,7 +2733,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "Aragon has not yet verified the distribution of LDO holders outside of the core team.",
       "criteria": [
@@ -2712,7 +2760,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "European trademark registrations for LIDO list Lido Labs Foundation as the owner. Lido Labs, Ecosystem, and Alliance BORG Foundations are DAO-controlled entities managing offchain IP and distribution.",
       "criteria": [
@@ -2802,7 +2852,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "UNI holders maintain ultimate control through onchain voting. The token is immutable with a hardcoded 2% annual inflation cap. All core contracts (V2, V3, V4) are non-upgradeable with no pause/freeze functions.",
       "criteria": [
@@ -3018,7 +3070,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "Protocol fees flow to governance-controlled destinations through TokenJar and FirePit burn mechanism. Treasury is entirely controlled by token holders.",
       "criteria": [
@@ -3183,7 +3237,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "UNI token source is publicly available on GitHub and verified on Etherscan. Uniswap V2, V3, V4, and UniswapX protocol contracts are open source and verified.",
       "criteria": [
@@ -3248,7 +3304,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "",
       "criteria": [
@@ -3305,7 +3363,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Core trademark rights (UNISWAP, UNI, UNISWAP LABS) are held by Universal Navigation Inc. (Uniswap Labs). DUNI has a limited, non-exclusive trademark license but no ownership transfer has occurred. Uniswap Labs operates a user interface and API, but the permissionless smart contracts allow anybody to operate one.",
       "criteria": [
@@ -3360,7 +3420,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "veYB holders control the protocol through Aragon governance. The YB token is non-upgradeable with renounced ownership. Protocol upgrades are controlled by the DAO through MigrationFactoryOwner. The veYB contract owner (_yb.eth) can change transfer clearance rules, but this does not constitute censorship—users remain custodians of their locked YB.",
       "criteria": [
@@ -3578,7 +3640,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "veYB holders receive **protocol admin fees** (a subset of protocol revenue) via FeeDistributor. Fees originate from LT (Liquidity Token) vault admin fees, distributed weekly in yb-LP tokens. DAO controls fee direction via MigrationFactoryOwner, and gauge voting directs YB emissions. The Ecosystem Reserve is controlled by an EOA, not the DAO.",
       "criteria": [
@@ -3701,7 +3765,9 @@
         {
           "id": "val-accrual__offchain",
           "name": "Offchain Value Accrual",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "Aragon has not been able to verify whether YieldBasis AG (operating entity) provides any offchain value to YB token holders. No evidence of equity linkage, offchain revenue sharing, or legal commitments to tokenholders.",
@@ -3712,7 +3778,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "All core contracts are verified on Etherscan with matching GitHub source (Vyper 0.4.3). Protocol has undergone 6 independent security audits (Statemind, Chainsecurity, Quantstamp, Mixbytes, Electisec, Pashov).",
       "criteria": [
@@ -3769,7 +3837,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "~77M YB locked as veYB (~10% of minted supply). Team (25%) + Investors (12.1%) have 24-month vesting with a 6-month cliff ending March 2026, after which 25% unlocks and the remaining 75% vests linearly over 18 months.",
       "criteria": [
@@ -3823,7 +3893,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Aragon has not been able to verify trademark ownership. Aragon has not been able to identify published terms of service or a contracting entity for the primary distribution channels. DAO contracts use AGPL v3.0 (open source), but Factory uses proprietary license.",
       "criteria": [
@@ -3885,7 +3957,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "SKY holders exercise binding governance through an approval-based voting workflow with a 24-hour timelock before any changes take effect. The token is non-upgradeable with no censorship capabilities. All privileged roles trace back to governance.",
       "criteria": [
@@ -4128,7 +4202,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "Protocol revenue flows to SKY holders through automated buybacks. When the protocol earns fees, it uses them to buy SKY on the open market. All fee parameters are governance-controlled.",
       "criteria": [
@@ -4247,7 +4323,9 @@
         {
           "id": "val-accrual__offchain",
           "name": "Offchain Value Accrual",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "No verified offchain revenue streams flow to SKY holders. The DAI Foundation is an independent non-profit that does not distribute profits.",
@@ -4270,7 +4348,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "All code is open source (AGPL-3.0) and verified on Etherscan. Anyone can audit the contracts.",
       "criteria": [
@@ -4329,7 +4409,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "Aragon has not been able to verify the concentration of holdings.",
       "criteria": [
@@ -4366,7 +4448,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Current Sky branding is not controlled by SKY tokenholders. Skybase International's terms reserve trademarks, service marks, logos, and trade names associated with the Services, including the Sky name, to the service operator or its licensors, and the DAI Foundation independently holds the legacy Maker and DAI trademarks. All code is open source (AGPL-3.0).",
       "criteria": [
@@ -4448,7 +4532,9 @@
     {
       "id": "onchain-ctrl",
       "name": "Onchain Control",
-      "tags": ["Metric 1"],
+      "tags": [
+        "Metric 1"
+      ],
       "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
       "summary": "ETHFI tokenholders do not have binding onchain control. Governance uses offchain voting with multisig execution.\n\nThe protocol uses a two-timelock system for upgrades and operations. A multisig controls the Upgrade Timelock, which owns the RoleRegistry and authorizes protocol upgrades.\n\nThe mainnet token is not upgradeable. L2 tokens on Arbitrum and Base are upgradeable by multisigs with no timelock.",
       "criteria": [
@@ -4695,7 +4781,9 @@
     {
       "id": "val-accrual",
       "name": "Value Accrual",
-      "tags": ["Metric 2"],
+      "tags": [
+        "Metric 2"
+      ],
       "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
       "summary": "An active buyback program distributes purchased ETHFI to sETHFI holders. eETH withdrawal fees fund buybacks, while any additional funding from broader protocol revenue is currently Foundation-discretionary. The Treasury is a multisig controlled by the team.",
       "criteria": [
@@ -4782,7 +4870,9 @@
         {
           "id": "val-accrual__offchain",
           "name": "Offchain Value Accrual",
-          "tags": ["Reference"],
+          "tags": [
+            "Reference"
+          ],
           "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
           "status": "unevaluated",
           "notes": "Aragon developers have not verified additional offchain value accrual mechanisms. No legally binding revenue sharing arrangements or licensing revenue documented.",
@@ -4793,7 +4883,9 @@
     {
       "id": "verifiability",
       "name": "Verifiability",
-      "tags": ["Metric 3"],
+      "tags": [
+        "Metric 3"
+      ],
       "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
       "summary": "The ETHFI token contract is verified on Etherscan but not published to a public GitHub repository. All core protocol contracts are verified and open source under MIT license with multiple security audits and formal verification through Certora.",
       "criteria": [
@@ -4846,7 +4938,9 @@
     {
       "id": "distribution",
       "name": "Token Distribution",
-      "tags": ["Metric 4"],
+      "tags": [
+        "Metric 4"
+      ],
       "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
       "summary": "Over 55% of tokens are allocated to Investors (33.74%) and Core Contributors (21.47%), subject to transparent vesting schedules published in official documentation. Vesting completion is expected by end of 2030.",
       "criteria": [
@@ -4898,7 +4992,9 @@
     {
       "id": "offchain",
       "name": "Offchain Dependencies",
-      "tags": ["Reference"],
+      "tags": [
+        "Reference"
+      ],
       "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
       "summary": "Trademarks are owned by Ether.Fi SEZC (Cayman Islands company), not a tokenholder-controlled entity. The ether.fi domain and platform are operated by this company. Protocol smart contracts are MIT licensed, but non-contract IP has restricted licensing.",
       "criteria": [
@@ -4958,6 +5054,588 @@
                 {
                   "name": "Terms of Use (Non-Contract IP)",
                   "url": "https://etherfi.gitbook.io/etherfi/ether.fi-legal/terms-of-use",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "hype": [
+    {
+      "id": "onchain-ctrl",
+      "name": "Onchain Control",
+      "tags": [
+        "Metric 1"
+      ],
+      "about": "This metric evaluates whether economically material outcomes are mediated through tokenholder governance, or whether admins, multisigs, security councils, or other privileged roles retain onchain powers that can change the rules or selectively restrict use and exit.",
+      "summary": "Hyperliquid uses validator stake-weighted consensus rather than smart contract governance. HYPE holders delegate to validators who vote on changes via HyperBFT. The Hyper Foundation controls 54% of staked HYPE across five validators, making governance outcomes effectively Foundation-determined. The L1 code is closed source, preventing independent verification of token logic or fee handling. The Bridge2 contract on Arbitrum is non-upgradeable and uses validator quorum signatures.",
+      "criteria": [
+        {
+          "id": "onchain-ctrl__governance-workflow",
+          "name": "Onchain Governance Workflow",
+          "about": "Evaluates whether an onchain process exists that grants tokenholders ultimate authority over protocol decisions.",
+          "status": "warning",
+          "notes": "Hyperliquid uses **validator stake-weighted consensus** for governance, not smart contract voting. HYPE holders can only delegate to validators and cannot vote directly. The Hyper Foundation controls **54% of staked HYPE** across five validators, meaning governance outcomes are effectively Foundation-determined regardless of how other tokenholders delegate.",
+          "evidence": [
+            {
+              "name": "Validator Governance Model",
+              "summary": "Validators propose and vote on changes via HyperBFT consensus. No Governor or Timelock contracts exist. Tokenholders influence governance indirectly through delegation, but the Foundation's majority stake controls consensus outcomes.",
+              "urls": [
+                {
+                  "name": "Staking Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/staking",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Foundation Validator Concentration",
+              "summary": "Live API data (April 2026) shows 30 total validators with 24 active. Foundation validators control 233.5M HYPE (53.74% of 434.6M total staked). Top 5 validators by stake are: Hyper Foundation 2 (13.05%), Hyper Foundation 3 (12.77%), Hyper Foundation 1 (12.24%), Hyper Foundation 4 (12.23%), and Hyper Foundation 5 (3.45%).",
+              "urls": [
+                {
+                  "name": "Validator API Query",
+                  "url": "https://api.hyperliquid.xyz/info",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "onchain-ctrl__role-accountability",
+          "name": "Role Accountability",
+          "about": "Determines whether all privileged or value-impacting roles are governed, revocable, and accountable to tokenholders.",
+          "status": "warning",
+          "notes": "The Hyper Foundation Delegation Program explicitly reserves **discretionary control** over which validators receive Foundation stake. Per documentation: \"The Foundation reserves the right to cease delegation at any time.\" Validators can jail underperforming peers via 2/3 consensus, but the Foundation's stake majority means this power effectively rests with Foundation-aligned validators.",
+          "evidence": [
+            {
+              "name": "Foundation Discretionary Delegation",
+              "summary": "The delegation program documentation states that delegations are monitored and the Foundation can cease delegation at any time. This means validator power is ultimately at Foundation discretion, not tokenholder choice.",
+              "urls": [
+                {
+                  "name": "Delegation Program",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/validators/delegation-program",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Bridge2 Validator Roles",
+              "summary": "On Arbitrum, Bridge2 defines roles for hot wallet validators (sign withdrawals), cold wallet validators (unlock bridge), lockers (pause disputes), and finalizers (execute withdrawals). All controlled by same validator set with 2/3 stake quorum requirements.",
+              "urls": [
+                {
+                  "name": "Bridge2 Source Code",
+                  "url": "https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol",
+                  "type": "github"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "onchain-ctrl__protocol-upgrade",
+          "name": "Protocol Upgrade Authority",
+          "about": "Determines whether core protocol logic can be upgraded and whether such upgrades are controlled by tokenholders.",
+          "status": "neutral",
+          "notes": "The Bridge2 contract on Arbitrum is **non-upgradeable** (not a proxy). L1 protocol upgrades occur via validator consensus, but the mechanism cannot be verified because the L1 code is closed source. Validator set updates require hot wallet signatures from current validators with stake-weighted quorum.",
+          "evidence": [
+            {
+              "name": "Bridge2 Non-Upgradeable",
+              "summary": "Bridge2 on Arbitrum is a non-proxy contract. Validator set changes use updateValidatorSet() requiring current validator hot wallet signatures. Current epoch: 7, paused: false.",
+              "urls": [
+                {
+                  "name": "Bridge2 Contract",
+                  "url": "https://arbiscan.io/address/0x2Df1c51E09aECF9cacB7bc98cB1742757f163dF7#code",
+                  "type": "explorer"
+                },
+                {
+                  "name": "Bridge2 Source",
+                  "url": "https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol",
+                  "type": "github"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "onchain-ctrl__token-upgrade",
+          "name": "Token Upgrade Authority",
+          "about": "Assesses whether token behavior can be modified and, if so, whether such changes are controlled by tokenholder governance.",
+          "status": "neutral",
+          "notes": "HYPE is an L1 native token with no upgrade mechanism beyond L1 protocol changes. **WHYPE** (wrapped HYPE on HyperEVM) is documented as immutable with identical source to WETH on Ethereum. Aragon developers have not been able to verify WHYPE immutability via HyperScan API.",
+          "evidence": [
+            {
+              "name": "WHYPE Documentation",
+              "summary": "WHYPE at address 0x5555555555555555555555555555555555555555 on HyperEVM is documented as an immutable WETH clone with 18 decimals. Documentation claims no upgrade mechanism exists.",
+              "urls": [
+                {
+                  "name": "WHYPE Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/wrapped-hype",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "onchain-ctrl__supply",
+          "name": "Supply Control",
+          "about": "Evaluates whether token supply changes are programmatic or subject exclusively to tokenholder-approved governance processes.",
+          "status": "neutral",
+          "notes": "Total supply is fixed at **1 billion HYPE**. Documentation claims the Assistance Fund burns accumulated HYPE, but the fund currently holds **43.5M HYPE** (~$1B at entry value) with no observable reduction in total supply. Aragon developers have not been able to verify whether burns have occurred or are batched for future execution.",
+          "evidence": [
+            {
+              "name": "Assistance Fund Balance",
+              "summary": "The Assistance Fund at system address 0xfefefefefefefefefefefefefefefefefefefefe holds 43,459,601 HYPE as of April 2026. Entry notional value: $1.07B. Total supply remains 1B HYPE.",
+              "urls": [
+                {
+                  "name": "Hyperliquid API (spotClearinghouseState)",
+                  "url": "https://api.hyperliquid.xyz/info",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Burn Mechanism Documentation",
+              "summary": "Per documentation: \"HYPE in the assistance fund is burned, removing the tokens permanently from the circulating and total supply.\" However, the accumulated balance and unchanged total supply indicate burns may be batched, pending, or not functioning as documented.",
+              "urls": [
+                {
+                  "name": "Fee Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "onchain-ctrl__access-gating",
+          "name": "Privileged Access Gating",
+          "about": "Assesses whether any bounded actor set can block or selectively restrict economically meaningful protocol actions or exit paths, versus access that is permissionless and symmetric for similarly situated users.",
+          "status": "warning",
+          "notes": "Multiple gating mechanisms exist. **Bridge lockers** can pause the USDC bridge for dispute resolution. **7-day unstaking queue** delays exit from staking. **Validator jailing** via 2/3 consensus removes underperformers. The Foundation's majority stake means it could influence jailing decisions. On HyperEVM, EIP-1559 applies with fees documented as burned.",
+          "evidence": [
+            {
+              "name": "Bridge Security Model",
+              "summary": "Bridge2 allows lockers (validator hot addresses) to pause suspicious withdrawals. Cold wallet signatures (2/3 quorum) required to unlock. Finalizers must approve pending withdrawals.",
+              "urls": [
+                {
+                  "name": "Bridge Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/bridge",
+                  "type": "docs"
+                },
+                {
+                  "name": "Bridge2 voteEmergencyLock",
+                  "url": "https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol",
+                  "type": "github"
+                }
+              ]
+            },
+            {
+              "name": "Staking Constraints",
+              "summary": "7-day unstaking period for withdrawals. 1-day delegation lockup. Validators can be jailed for underperformance via peer consensus.",
+              "urls": [
+                {
+                  "name": "Staking Parameters",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/staking",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "onchain-ctrl__censorship",
+          "name": "Token Censorship",
+          "about": "Examines whether any roles exist that can freeze, blacklist, seize, or otherwise censor token balances or transfers.",
+          "status": "neutral",
+          "notes": "The Bridge2 contract on Arbitrum contains **no blacklist function** in the verified source code. L1 token censorship capabilities cannot be verified because the code is closed source. WHYPE on HyperEVM is documented as a standard WETH clone without censorship functions.",
+          "evidence": [
+            {
+              "name": "Bridge2 Source Analysis",
+              "summary": "Review of Bridge2.sol (lines 126-842) shows no blacklist, freeze, or seizure functions. Withdrawal restrictions are time-based (dispute periods) not address-based.",
+              "urls": [
+                {
+                  "name": "Bridge2 Source",
+                  "url": "https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol",
+                  "type": "github"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "val-accrual",
+      "name": "Value Accrual",
+      "tags": [
+        "Metric 2"
+      ],
+      "about": "This metric evaluates whether the system's operation produces observable, onchain value flows (or token-scarcity effects) that accrue value to tokenholders under rule-based constraints that do not rely on manual transfers, trusted executors, or other unenforced expectations.",
+      "summary": "HYPE has an active fee buyback mechanism where trading fees flow to the Assistance Fund and are converted to HYPE. The Assistance Fund holds 43.5M HYPE (~$1B), but Aragon developers have not been able to verify that burns occur as documented. Stakers earn ~2.4% APY from emissions and receive trading fee discounts (5-40% based on stake tier). Fee parameters are controlled at the L1 level with no documented tokenholder governance mechanism.",
+      "criteria": [
+        {
+          "id": "val-accrual__active",
+          "name": "Accrual Active",
+          "about": "Assesses whether value flows to tokenholders are currently active rather than merely theoretical or proposed.",
+          "status": "neutral",
+          "notes": "Value accrual mechanisms are **active but partially unverifiable**. The Assistance Fund has accumulated 43.5M HYPE from fee conversions, but burns are not observable (total supply unchanged). Staking rewards are active at ~2.37% APY. Fee discounts (5-40%) are active for stakers. The exact fee split percentages are not specified in official documentation.",
+          "evidence": [
+            {
+              "name": "Assistance Fund Accumulation",
+              "summary": "The Assistance Fund holds 43,459,601 HYPE with entry notional of $1.07B as of April 2026. This demonstrates active fee-to-HYPE conversion, but the claimed burn mechanism shows no supply reduction.",
+              "urls": [
+                {
+                  "name": "Hyperliquid API",
+                  "url": "https://api.hyperliquid.xyz/info",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Staking Rewards",
+              "summary": "Stakers earn approximately 2.37% APY from future emissions reserves. Rewards are distributed daily and auto-compound. Rate formula: inversely proportional to square root of total staked HYPE.",
+              "urls": [
+                {
+                  "name": "Staking Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/staking",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Fee Discount Tiers",
+              "summary": "Stakers receive trading fee discounts: Wood (1K HYPE) 5%, Bronze (10K) 10%, Silver (100K) 20%, Gold (1M) 30%, Diamond (10M) 40%.",
+              "urls": [
+                {
+                  "name": "Fee Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "val-accrual__treasury",
+          "name": "Treasury Ownership",
+          "about": "Determines whether protocol treasury assets are programmatically controlled by tokenholder governance.",
+          "status": "neutral",
+          "notes": "The Assistance Fund operates as an **automated system contract** with L1-level control. The Hyper Foundation Budget (6% of total supply) is controlled at Foundation discretion with no transparency reports published. No documented mechanism exists for tokenholders to direct treasury spending.",
+          "evidence": [
+            {
+              "name": "Assistance Fund Automation",
+              "summary": "Per documentation, the Assistance Fund converts trading fees to HYPE automatically as part of L1 execution. The mechanism is not tokenholder-controlled but also not discretionary human-controlled.",
+              "urls": [
+                {
+                  "name": "Fee Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Foundation Budget",
+              "summary": "6% of total supply (60M HYPE) allocated to Hyper Foundation Budget. Foundation controls deployment with no published spending reports or tokenholder oversight.",
+              "urls": [
+                {
+                  "name": "Token Distribution",
+                  "url": "https://tokenomist.ai/hyperliquid",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "val-accrual__mechanism",
+          "name": "Accrual Mechanism Control",
+          "about": "Evaluates whether tokenholders can modify parameters governing value capture, such as fees or revenue routing.",
+          "status": "warning",
+          "notes": "Fee parameters are **controlled at the L1 level** with no documented tokenholder governance mechanism. The exact fee split between Assistance Fund and HLP is not specified in official documentation. Spot/HIP-3 deployers can retain up to 50% of their asset's fees. All parameter control is closed-source and unverifiable.",
+          "evidence": [
+            {
+              "name": "Fee Parameter Control",
+              "summary": "Trading fees: Perps taker 0.045% (down to 0.024%), maker 0.015% (to 0%). Spot taker 0.070% (to 0.025%), maker 0.040% (to 0%). No governance mechanism documented for changing these parameters.",
+              "urls": [
+                {
+                  "name": "Fee Structure",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/trading/fees",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Closed Source L1",
+              "summary": "Fee parameter storage and modification logic are in L1 code which is closed source. Aragon developers have not been able to verify who can change fee parameters or how.",
+              "urls": [
+                {
+                  "name": "Node Software (partial)",
+                  "url": "https://github.com/hyperliquid-dex/node",
+                  "type": "github"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "val-accrual__offchain",
+          "name": "Offchain Value Accrual",
+          "tags": [
+            "Reference"
+          ],
+          "about": "Are there additional offchain value accrual flows that benefit tokenholders?",
+          "status": "unevaluated",
+          "notes": "Aragon developers have not verified additional offchain value accrual flows to the HYPE token.",
+          "evidence": []
+        }
+      ]
+    },
+    {
+      "id": "verifiability",
+      "name": "Verifiability",
+      "tags": [
+        "Metric 3"
+      ],
+      "about": "This metric measures whether a token's economically material code and deployments are independently verifiable from primary evidence without relying on insider assurances.",
+      "summary": "Hyperliquid presents a mixed verifiability picture. The Bridge2 contract on Arbitrum is verified with source available on GitHub. WHYPE on HyperEVM is documented as immutable but verification status cannot be confirmed via API. The L1 core (HyperBFT consensus, HyperCore execution, native HYPE token logic, fee handling) is entirely closed source and cannot be independently verified.",
+      "criteria": [
+        {
+          "id": "verifiability__token-source",
+          "name": "Token Contract Source Verification",
+          "about": "Determines whether the token contract's source code is publicly available and verifiably matches the deployed bytecode.",
+          "status": "neutral",
+          "notes": "Native HYPE token logic is **embedded in the closed-source L1** and cannot be verified. WHYPE on HyperEVM is documented as a WETH clone identical to Ethereum mainnet WETH. Aragon developers have not been able to confirm WHYPE verification status via HyperScan API.",
+          "evidence": [
+            {
+              "name": "WHYPE Documentation",
+              "summary": "WHYPE at 0x5555555555555555555555555555555555555555 is documented as immutable with same source as WETH. 18 decimals, standard ERC-20 interface.",
+              "urls": [
+                {
+                  "name": "WHYPE Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/for-developers/hyperevm/wrapped-hype",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "L1 Closed Source",
+              "summary": "The native HYPE token exists at L1 protocol level. All token logic (transfers, balances, staking integration) is in closed-source L1 code.",
+              "urls": [
+                {
+                  "name": "HIP-1 Native Token Standard",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/hyperliquid-improvement-proposals-hips/hip-1-native-token-standard",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "verifiability__protocol-source",
+          "name": "Protocol Component Source Verification",
+          "about": "Determines whether core protocol contracts are publicly accessible and verifiable against their onchain deployments.",
+          "status": "neutral",
+          "notes": "**Bridge2.sol is fully verifiable** with source on GitHub matching deployed bytecode on Arbitrum. SDKs are MIT licensed and open source. Node software is Apache 2.0 licensed. However, HyperBFT consensus and HyperCore execution (the economically critical components) are closed source.",
+          "evidence": [
+            {
+              "name": "Verified Components",
+              "summary": "Bridge2 on Arbitrum: Source available at GitHub, bytecode verifiable. SDKs: MIT licensed at github.com/hyperliquid-dex. Node software: Apache 2.0 licensed.",
+              "urls": [
+                {
+                  "name": "Bridge2 Source",
+                  "url": "https://github.com/hyperliquid-dex/contracts/blob/master/Bridge2.sol",
+                  "type": "github"
+                },
+                {
+                  "name": "Node Software",
+                  "url": "https://github.com/hyperliquid-dex/node",
+                  "type": "github"
+                }
+              ]
+            },
+            {
+              "name": "Unverifiable Components",
+              "summary": "HyperBFT consensus: Closed source. HyperCore execution: Closed source. Fee parameter storage: L1 state (closed source). Assistance Fund automation: L1 code (closed source).",
+              "urls": [
+                {
+                  "name": "Hyperliquid Architecture",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "distribution",
+      "name": "Token Distribution",
+      "tags": [
+        "Metric 4"
+      ],
+      "about": "This metric evaluates whether ownership and therefore effective voting power in governance is meaningfully distributed.",
+      "summary": "The Hyper Foundation controls 54% of staked HYPE through five validators, giving it effective control over governance outcomes. Genesis distribution was broad (31% to community), but the Foundation's validator stake concentration means voting power is not proportionally distributed. Cliff vesting creates concentrated unlock events, with the next major unlock in May 2026 (~$407M).",
+      "criteria": [
+        {
+          "id": "distribution__concentration",
+          "name": "Ownership Concentration",
+          "about": "Measures whether a single actor or coordinated group controls a majority of the voting supply.",
+          "status": "warning",
+          "notes": "The Hyper Foundation controls **53.74% of staked HYPE** through five validators named Hyper Foundation 1-5. This exceeds 50%, giving the Foundation effective control over consensus. The top 5 validators (4 Foundation + 1 independent) control 58.26% of stake. No single validator exceeds the 33% finality-blocking threshold.",
+          "evidence": [
+            {
+              "name": "Foundation Validator Stakes",
+              "summary": "Foundation validators (April 2026 API data): Hyper Foundation 2: 56.7M HYPE (13.05%), Hyper Foundation 3: 55.5M (12.77%), Hyper Foundation 1: 53.2M (12.24%), Hyper Foundation 4: 53.1M (12.23%), Hyper Foundation 5: 15.0M (3.45%). Total: 233.5M HYPE (53.74%).",
+              "urls": [
+                {
+                  "name": "Validator API",
+                  "url": "https://api.hyperliquid.xyz/info",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Genesis Distribution",
+              "summary": "Genesis allocated 31% to community distribution. Core contributors received 23.8% with vesting. Foundation budget is 6%. Future emissions reserves: 38.89%.",
+              "urls": [
+                {
+                  "name": "Token Distribution",
+                  "url": "https://tokenomist.ai/hyperliquid",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "distribution__supply-schedule",
+          "name": "Future Token Unlocks",
+          "about": "Are there known, future events (such as vesting cliffs) that will materially affect the concentration of tokens?",
+          "status": "warning",
+          "notes": "Core contributor vesting follows a **cliff-based schedule** with concentrated unlock events. The next unlock on May 6, 2026 releases 9.9M HYPE (~$407M) to core contributors, representing 2.33% of released supply. Monthly unlocks continue through the 24-month vesting period starting November 2025.",
+          "evidence": [
+            {
+              "name": "Vesting Schedule",
+              "summary": "Core contributors (23.8% = 238M HYPE) vest over 24 months starting November 2025. Monthly distributions on 6th of each month. Cliff-based structure creates concentrated unlock events.",
+              "urls": [
+                {
+                  "name": "Unlock Schedule",
+                  "url": "https://tokenomist.ai/hyperliquid",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Supply Metrics",
+              "summary": "Total supply: 1B HYPE. Circulating: 238.4M (23.84%). Unlocked/Released: 425.2M (42.52%). Locked: 574.8M (57.48%). Next unlock: May 6, 2026.",
+              "urls": [
+                {
+                  "name": "Token Metrics",
+                  "url": "https://tokenomist.ai/hyperliquid",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "offchain",
+      "name": "Offchain Dependencies",
+      "tags": [
+        "Reference"
+      ],
+      "about": "Economically material assets and obligations often sit offchain—outside the custody and direct enforcement of a token—while still determining which interfaces and domains most users reach, where fees are charged or captured, who can commercialize or restrict the software, and who can sign contracts or move offchain funds.",
+      "summary": "The HYPERLIQUID trademark is held by the Hyper Foundation with no documented governance link to tokenholders. Hyperliquid Labs (Singapore) controls the primary interface at app.hyperliquid.xyz. Core L1 code is closed source with IP presumably held by Labs. No alternative decentralized interfaces are documented.",
+      "criteria": [
+        {
+          "id": "offchain__trademark",
+          "name": "Trademark",
+          "about": "Are core trademarks and brand assets owned or controlled by a tokenholder-controlled legal entity?",
+          "status": "warning",
+          "notes": "The HYPERLIQUID trademark (USPTO 99599981) is held by **Hyper Foundation**, not a tokenholder-controlled entity. No governance mechanism links tokenholders to Foundation trademark decisions. The Foundation's legal structure and jurisdiction are not publicly documented.",
+          "evidence": [
+            {
+              "name": "Trademark Filing",
+              "summary": "USPTO filing 99599981 for HYPERLIQUID lists Hyper Foundation as applicant. Status: Filed. No documented tokenholder control over trademark usage or licensing.",
+              "urls": [
+                {
+                  "name": "USPTO TSDR",
+                  "url": "https://tsdr.uspto.gov/",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "offchain__distribution",
+          "name": "Distribution",
+          "about": "Are primary domains and distribution assets owned or controlled by a tokenholder-controlled legal entity?",
+          "status": "warning",
+          "notes": "The primary interface at **app.hyperliquid.xyz** is operated by Hyperliquid Labs Pte. Ltd. (Singapore). Labs is a private company, not tokenholder-controlled. No alternative decentralized frontends are documented. Terms of service identify Labs as the contracting party.",
+          "evidence": [
+            {
+              "name": "Hyperliquid Labs",
+              "summary": "Hyperliquid Labs Pte. Ltd. incorporated January 16, 2024 in Singapore (UEN 202402326K). Exempt private company. Address: 3 Pemimpin Drive #06-01, Singapore 576147. Activity: Software development.",
+              "urls": [
+                {
+                  "name": "Core Contributors Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/about-hyperliquid/core-contributors",
+                  "type": "docs"
+                }
+              ]
+            },
+            {
+              "name": "Primary Interface",
+              "summary": "app.hyperliquid.xyz is the primary trading interface. Operated by Hyperliquid Labs. No decentralized alternative documented.",
+              "urls": [
+                {
+                  "name": "Hyperliquid App",
+                  "url": "https://app.hyperliquid.xyz",
+                  "type": "docs"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "offchain__licensing",
+          "name": "Licensing",
+          "about": "Is core protocol software/IP (and any associated licensing rights, where applicable) owned or controlled by a tokenholder-controlled legal entity?",
+          "status": "warning",
+          "notes": "SDKs are MIT licensed (open source). Node software is Apache 2.0 licensed. However, the **core L1 code (HyperBFT, HyperCore)** is closed source with IP presumably held by Hyperliquid Labs. No public IP assignment to a tokenholder-controlled entity exists.",
+          "evidence": [
+            {
+              "name": "Open Source Components",
+              "summary": "SDKs: MIT licensed at github.com/hyperliquid-dex. Node software: Apache 2.0 licensed. Bridge2: Source available on GitHub.",
+              "urls": [
+                {
+                  "name": "Hyperliquid GitHub",
+                  "url": "https://github.com/hyperliquid-dex",
+                  "type": "github"
+                },
+                {
+                  "name": "Node Repository",
+                  "url": "https://github.com/hyperliquid-dex/node",
+                  "type": "github"
+                }
+              ]
+            },
+            {
+              "name": "Closed Source Core",
+              "summary": "HyperBFT consensus and HyperCore execution are closed source. No license published. IP ownership presumably with Hyperliquid Labs.",
+              "urls": [
+                {
+                  "name": "Architecture Documentation",
+                  "url": "https://hyperliquid.gitbook.io/hyperliquid-docs/",
                   "type": "docs"
                 }
               ]
