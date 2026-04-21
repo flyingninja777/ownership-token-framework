@@ -153,7 +153,7 @@ Hyperliquid does **not** have an onchain Governor/Timelock contract. All governa
 #### Channel A — HyperBFT consensus votes (continuous)
 Every block, validators sign the next block under HyperBFT's 2/3-stake safety and liveness rules. This is the mechanism that decides: block production, validator-set transitions, and — by running a specific binary release — which execution rules are in force.
 
-**Source (Hyperliquid docs):** https://hyperliquid.gitbook.io/hyperliquid-docs/about-hyperliquid/hyperbft
+**Source (Hyperliquid docs — HyperCore overview covers HyperBFT):** https://hyperliquid.gitbook.io/hyperliquid-docs/hypercore/overview — the primary-source page states: *"Hyperliquid is secured by HyperBFT, a variant of HotStuff consensus"* and *"blocks are produced by validators in proportion to the native token staked to each validator."*
 
 #### Channel B — Stake-weighted validator governance votes (discrete proposals)
 For specific protocol-level decisions the L1 also exposes discrete validator votes. Publicly observable recent votes include:
